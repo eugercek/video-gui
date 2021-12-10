@@ -1,0 +1,46 @@
+#+TITLE: README
+#+bibliography: cite.bib
+
+
+
+* Use Case Diagrams
+Syntax used in /Description/ is Martin Fowler's style [cite:@distilled Figure: 9.1]
+** Create Account
+*** UML
+#+begin_src plantuml
+left to right direction
+actor User
+actor Server
+actor paymentService as "Payment Service"
+
+rectangle "Main Screen"{
+        usecase createAccount as "Create Account"
+
+        User --> createAccount
+        createAccount ..> (Become Subscriber)  : <<extends>>
+        createAccount ..> (Free Account)  : <<extends>>
+
+        createAccount <--- Server
+        (Become Subscriber) <-- paymentService
+
+}
+#+end_src
+
+#+RESULTS:
+[[file:/tmp/babel-vs0Y13/plantuml-Q44C5B.png]]
+
+*** Description
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+1. User interacts with =Become Subscriber= component (button etc..)
+2. User fills form
+3. _Relevant checks are done_
+4. Account has created, user has notified
+5. Popup/Window will closed/hidden
+
+Extensions:  \\
+3a: Free account request
+        Server checks account subscription request
+3b: Subscription request
+        Both server and 3rd party payment service checks request
