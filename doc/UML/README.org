@@ -3,10 +3,7 @@
 
 
 
-* Use Case Diagrams
-Syntax used in /Description/ is Martin Fowler's style [cite:@distilled Figure: 9.1]
-** Create Account
-*** UML
+* COMMENT Meta
 #+begin_src plantuml
 left to right direction
 actor User
@@ -25,10 +22,37 @@ rectangle "Main Screen"{
 
 }
 #+end_src
+* Use Case Diagrams
+Syntax used in /Description/ is Martin Fowler's style [cite:@distilled Figure: 9.1    ]
+
+#+begin_src plantuml
+left to right direction
+actor User
+actor Server
+actor paymentService as "Payment Service"
+
+rectangle "Main Screen"{
+        usecase createAccount as "Create Account"
+        usecase renew as "Renew Subscription"
+
+        User --> createAccount
+
+        createAccount ..> (Become Subscriber)  : <<extends>>
+        createAccount ..> (Free Account)  : <<extends>>
+
+        createAccount <--- Server
+        (Become Subscriber) <-- paymentService
+
+        User --> renew
+        renew <-- paymentService
+
+}
+#+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-vs0Y13/plantuml-Q44C5B.png]]
+[[file:/tmp/babel-vs0Y13/plantuml-9PMc3d.png]]
 
+** Create Account
 *** Description
 Goal Level: Sea Level \\
 Main Success Scenario: \\
@@ -44,3 +68,16 @@ Extensions:  \\
         Server checks account subscription request
 3b: Subscription request
         Both server and 3rd party payment service checks request
+** Renew Subscription
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+1. User interacts with =Renew Subscriber= component (button etc..)
+2. 3rd party payment handles payment
+3. Give feedback about status of payment
+
+Extensions:  \\
+2a: Error in payment
+    - Not enough money
+    - Authentication problems
+    - ...
