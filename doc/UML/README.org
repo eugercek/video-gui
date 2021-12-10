@@ -1,7 +1,8 @@
-#+TITLE: README
+#+TITLE: UML Diagrams of Project
 #+bibliography: cite.bib
 
 
+\pagebreak
 
 * COMMENT Meta
 #+begin_src plantuml
@@ -29,7 +30,8 @@ Syntax used in /Description/ is Martin Fowler's style [cite:@distilled Figure: 9
 left to right direction
 actor User
 actor Server
-actor paymentService as "Payment Service"
+actor PaymentService as "Payment Service"
+actor Admin
 
 rectangle "Main Screen"{
         usecase createAccount as "Create Account"
@@ -42,22 +44,25 @@ rectangle "Main Screen"{
         createAccount ..> (Free Account)  : <<extends>>
 
         createAccount <--- Server
-        (Become Subscriber) <-- paymentService
+        (Become Subscriber) <-- PaymentService
 
         User --> renew
-        renew <-- paymentService
+        renew <-- PaymentService
 
         User --> invoice
-        invoice <-- paymentService
+        invoice <-- PaymentService
+
+        Admin --> (Generate Report)
+        (Generate Report) <-- Server
+
 
 }
 #+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-vs0Y13/plantuml-lKrrcv.png]]
+[[file:/tmp/babel-vs0Y13/plantuml-3LOq2p.png]]
 
 ** Create Account
-*** Description
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -72,6 +77,7 @@ Extensions:  \\
         Server checks account subscription request
 3b: Subscription request
         Both server and 3rd party payment service checks request
+4a: Error in creation
 ** Renew Subscription
 Goal Level: Sea Level \\
 Main Success Scenario: \\
@@ -79,6 +85,7 @@ Main Success Scenario: \\
 1. User interacts with =Renew Subscriber= component (button etc..)
 2. 3rd party payment handles payment
 3. Give feedback about status of payment
+4. Popup/Window will closed/hidden
 
 Extensions:  \\
 2a: Error in payment
@@ -92,8 +99,24 @@ Main Success Scenario: \\
 1. User interacts with =Get = component (button etc..)
 2. User selects time interval of invoice
 3. Get data from 3rd party payment handles payment
+4. Give invoice report
+5. Popup/Window will closed/hidden
 
 Extensions:  \\
 3a: Error in fetch
     - Authentication problems
+    - ...
+** Generate Reports
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+1. Admin interacts with =Get = component (button etc..)
+2. Admin selects time interval of invoice
+3. Get data from server
+4. Present report
+5. Popup/Window will closed/hidden
+
+Extensions:  \\
+4a: Error in fetch
+    - Server is down
     - ...

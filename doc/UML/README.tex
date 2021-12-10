@@ -1,0 +1,117 @@
+% Created 2021-12-10 Cum 13:28
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\author{Emin Umut Gerçek}
+\date{\today}
+\title{UML Diagrams of Project}
+\hypersetup{
+ pdfauthor={Emin Umut Gerçek},
+ pdftitle={UML Diagrams of Project},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.6)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\pagebreak
+
+\section{Use Case Diagrams}
+\label{sec:org30929df}
+Syntax used in \emph{Description} is Martin Fowler's style (Fowler, Martin, 2003 Figure: 9.1)
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{/tmp/babel-vs0Y13/plantuml-flJMQV.png}
+\end{center}
+
+\subsection{Create Account}
+\label{sec:org6dc0c3a}
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+\begin{enumerate}
+\item User interacts with \texttt{Become Subscriber} component (button etc..)
+\item User fills form
+\item \uline{Relevant checks are done}
+\item Account has created, user has notified
+\item Popup/Window will closed/hidden
+\end{enumerate}
+
+Extensions:  \\
+3a: Free account request
+        Server checks account subscription request
+3b: Subscription request
+        Both server and 3rd party payment service checks request
+4a: Error in creation
+\subsection{Renew Subscription}
+\label{sec:org2b9f3cf}
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+\begin{enumerate}
+\item User interacts with \texttt{Renew Subscriber} component (button etc..)
+\item 3rd party payment handles payment
+\item Give feedback about status of payment
+\item Popup/Window will closed/hidden
+\end{enumerate}
+
+Extensions:  \\
+2a: Error in payment
+\begin{itemize}
+\item Not enough money
+\item Authentication problems
+\item \ldots{}
+\end{itemize}
+\subsection{Payment Invoice}
+\label{sec:orgc53bd01}
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+\begin{enumerate}
+\item User interacts with =Get = component (button etc..)
+\item User selects time interval of invoice
+\item Get data from 3rd party payment handles payment
+\item Give invoice report
+\item Popup/Window will closed/hidden
+\end{enumerate}
+
+Extensions:  \\
+3a: Error in fetch
+\begin{itemize}
+\item Authentication problems
+\item \ldots{}
+\end{itemize}
+\subsection{Generate Reports}
+\label{sec:org36b71b7}
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+\begin{enumerate}
+\item Admin interacts with =Get = component (button etc..)
+\item Admin selects time interval of invoice
+\item Get data from server
+\item Present report
+\item Popup/Window will closed/hidden
+\end{enumerate}
+
+Extensions:  \\
+4a: Error in fetch
+\begin{itemize}
+\item Server is down
+\item \ldots{}
+\end{itemize}
+\end{document}
