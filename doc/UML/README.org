@@ -1,6 +1,9 @@
 #+TITLE: UML Diagrams of Project
 #+bibliography: cite.bib
+\setlength{\parindent}{0cm}
 
+
+#+LATEX_HEADER: \usepackage[scale=0.7]{geometry} % Reduce document margins
 
 \pagebreak
 
@@ -72,26 +75,26 @@ Main Success Scenario: \\
 4. Account has created, user has notified
 5. Popup/Window will closed/hidden
 
-Extensions:  \\
-3a: Free account request
-        Server checks account subscription request
-3b: Subscription request
-        Both server and 3rd party payment service checks request
-4a: Error in creation
+Extensions:
+- 3a: Free account request
+        - Server checks account subscription request
+- 3b: Subscription request
+        - Both server and 3rd party payment service checks request
+- 4a: Error in creation
 ** Renew Subscription
 Goal Level: Sea Level \\
-Main Success Scenario: \\
+Main Success Scenario: 
 
 1. User interacts with =Renew Subscriber= component (button etc..)
 2. 3rd party payment handles payment
 3. Give feedback about status of payment
 4. Popup/Window will closed/hidden
 
-Extensions:  \\
-2a: Error in payment
-    - Not enough money
-    - Authentication problems
-    - ...
+Extensions:
+    - 2a: Error in payment
+      + Not enough money
+      + Authentication problems
+      + ...
 ** Payment Invoice
 Goal Level: Sea Level \\
 Main Success Scenario: \\
@@ -103,9 +106,9 @@ Main Success Scenario: \\
 5. Popup/Window will closed/hidden
 
 Extensions:  \\
-3a: Error in fetch
-    - Authentication problems
-    - ...
+ - 3a: Error in fetch
+   - Authentication problems
+   - ...
 ** Generate Reports
 Goal Level: Sea Level \\
 Main Success Scenario: \\
@@ -116,7 +119,7 @@ Main Success Scenario: \\
 4. Present report
 5. Popup/Window will closed/hidden
 
-Extensions:  \\
-4a: Error in fetch
+Extensions:
+- 4a: Error in fetch
     - Server is down
     - ...

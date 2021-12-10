@@ -1,4 +1,4 @@
-% Created 2021-12-10 Cum 13:28
+% Created 2021-12-10 Cum 13:47
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -13,6 +13,7 @@
 \usepackage{capt-of}
 \usepackage{hyperref}
 \usepackage{minted}
+\usepackage[scale=0.7]{geometry} % Reduce document margins
 \author{Emin Umut Gerçek}
 \date{\today}
 \title{UML Diagrams of Project}
@@ -28,18 +29,21 @@
 \maketitle
 \tableofcontents
 
+\setlength{\parindent}{0cm}
+
+
 \pagebreak
 
 \section{Use Case Diagrams}
-\label{sec:org30929df}
+\label{sec:org93bd6dc}
 Syntax used in \emph{Description} is Martin Fowler's style (Fowler, Martin, 2003 Figure: 9.1)
 
 \begin{center}
-\includegraphics[width=.9\linewidth]{/tmp/babel-vs0Y13/plantuml-flJMQV.png}
+\includegraphics[width=.9\linewidth]{/tmp/babel-vs0Y13/plantuml-aBlwDD.png}
 \end{center}
 
 \subsection{Create Account}
-\label{sec:org6dc0c3a}
+\label{sec:org115b9c6}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -51,16 +55,22 @@ Main Success Scenario: \\
 \item Popup/Window will closed/hidden
 \end{enumerate}
 
-Extensions:  \\
-3a: Free account request
-        Server checks account subscription request
-3b: Subscription request
-        Both server and 3rd party payment service checks request
-4a: Error in creation
+Extensions:
+\begin{itemize}
+\item 3a: Free account request
+\begin{itemize}
+\item Server checks account subscription request
+\end{itemize}
+\item 3b: Subscription request
+\begin{itemize}
+\item Both server and 3rd party payment service checks request
+\end{itemize}
+\item 4a: Error in creation
+\end{itemize}
 \subsection{Renew Subscription}
-\label{sec:org2b9f3cf}
+\label{sec:orgbe33845}
 Goal Level: Sea Level \\
-Main Success Scenario: \\
+Main Success Scenario: 
 
 \begin{enumerate}
 \item User interacts with \texttt{Renew Subscriber} component (button etc..)
@@ -69,15 +79,17 @@ Main Success Scenario: \\
 \item Popup/Window will closed/hidden
 \end{enumerate}
 
-Extensions:  \\
-2a: Error in payment
+Extensions:
+\begin{itemize}
+\item 2a: Error in payment
 \begin{itemize}
 \item Not enough money
 \item Authentication problems
 \item \ldots{}
 \end{itemize}
+\end{itemize}
 \subsection{Payment Invoice}
-\label{sec:orgc53bd01}
+\label{sec:org0d16b77}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -90,13 +102,15 @@ Main Success Scenario: \\
 \end{enumerate}
 
 Extensions:  \\
-3a: Error in fetch
+\begin{itemize}
+\item 3a: Error in fetch
 \begin{itemize}
 \item Authentication problems
 \item \ldots{}
 \end{itemize}
+\end{itemize}
 \subsection{Generate Reports}
-\label{sec:org36b71b7}
+\label{sec:org716dce0}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -108,10 +122,12 @@ Main Success Scenario: \\
 \item Popup/Window will closed/hidden
 \end{enumerate}
 
-Extensions:  \\
-4a: Error in fetch
+Extensions:
+\begin{itemize}
+\item 4a: Error in fetch
 \begin{itemize}
 \item Server is down
 \item \ldots{}
+\end{itemize}
 \end{itemize}
 \end{document}
