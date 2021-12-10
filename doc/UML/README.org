@@ -34,6 +34,7 @@ actor paymentService as "Payment Service"
 rectangle "Main Screen"{
         usecase createAccount as "Create Account"
         usecase renew as "Renew Subscription"
+        usecase invoice as "Get Invoices"
 
         User --> createAccount
 
@@ -46,11 +47,14 @@ rectangle "Main Screen"{
         User --> renew
         renew <-- paymentService
 
+        User --> invoice
+        invoice <-- paymentService
+
 }
 #+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-vs0Y13/plantuml-9PMc3d.png]]
+[[file:/tmp/babel-vs0Y13/plantuml-lKrrcv.png]]
 
 ** Create Account
 *** Description
@@ -79,5 +83,17 @@ Main Success Scenario: \\
 Extensions:  \\
 2a: Error in payment
     - Not enough money
+    - Authentication problems
+    - ...
+** Payment Invoice
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+1. User interacts with =Get = component (button etc..)
+2. User selects time interval of invoice
+3. Get data from 3rd party payment handles payment
+
+Extensions:  \\
+3a: Error in fetch
     - Authentication problems
     - ...
