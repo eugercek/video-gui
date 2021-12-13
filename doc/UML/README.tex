@@ -1,4 +1,4 @@
-% Created 2021-12-10 Cum 13:47
+% Created 2021-12-13 Pzt 22:35
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -35,20 +35,20 @@
 \pagebreak
 
 \section{Use Case Diagrams}
-\label{sec:org93bd6dc}
+\label{sec:org1b4af79}
 Syntax used in \emph{Description} is Martin Fowler's style (Fowler, Martin, 2003 Figure: 9.1)
 
 \begin{center}
-\includegraphics[width=.9\linewidth]{/tmp/babel-vs0Y13/plantuml-aBlwDD.png}
+\includegraphics[width=.9\linewidth]{/tmp/babel-cbYO8z/plantuml-5UfVXT.png}
 \end{center}
 
 \subsection{Create Account}
-\label{sec:org115b9c6}
+\label{sec:org373b4ac}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
 \begin{enumerate}
-\item User interacts with \texttt{Become Subscriber} component (button etc..)
+\item User interacts with \texttt{Create Account} component (button etc..)
 \item User fills form
 \item \uline{Relevant checks are done}
 \item Account has created, user has notified
@@ -67,8 +67,24 @@ Extensions:
 \end{itemize}
 \item 4a: Error in creation
 \end{itemize}
+\subsection{Login}
+\label{sec:orgc92bb06}
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+\begin{enumerate}
+\item User interacts with \texttt{Login} component (button etc..)
+\item User fills form
+\item User logs in
+\item Popup/Window will closed/hidden
+\end{enumerate}
+
+Extensions:
+\begin{itemize}
+\item 3a: There is no account
+\end{itemize}
 \subsection{Renew Subscription}
-\label{sec:orgbe33845}
+\label{sec:orgdc0067b}
 Goal Level: Sea Level \\
 Main Success Scenario: 
 
@@ -89,7 +105,7 @@ Extensions:
 \end{itemize}
 \end{itemize}
 \subsection{Payment Invoice}
-\label{sec:org0d16b77}
+\label{sec:org7a09bc8}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -110,7 +126,7 @@ Extensions:  \\
 \end{itemize}
 \end{itemize}
 \subsection{Generate Reports}
-\label{sec:org716dce0}
+\label{sec:org8e0a059}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -130,4 +146,6 @@ Extensions:
 \item \ldots{}
 \end{itemize}
 \end{itemize}
+\section{Sequence Diagrams}
+\label{sec:org1073579}
 \end{document}

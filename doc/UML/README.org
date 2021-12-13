@@ -55,6 +55,9 @@ rectangle "Main Screen"{
         User --> invoice
         invoice <-- PaymentService
 
+        User --> (Login)
+        (Login) <-- Server
+
         Admin --> (Generate Report)
         (Generate Report) <-- Server
 
@@ -63,13 +66,13 @@ rectangle "Main Screen"{
 #+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-vs0Y13/plantuml-3LOq2p.png]]
+[[file:/tmp/babel-cbYO8z/plantuml-N9Hxrm.png]]
 
 ** Create Account
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
-1. User interacts with =Become Subscriber= component (button etc..)
+1. User interacts with =Create Account= component (button etc..)
 2. User fills form
 3. _Relevant checks are done_
 4. Account has created, user has notified
@@ -81,6 +84,17 @@ Extensions:
 - 3b: Subscription request
         - Both server and 3rd party payment service checks request
 - 4a: Error in creation
+** Login
+Goal Level: Sea Level \\
+Main Success Scenario: \\
+
+1. User interacts with =Login= component (button etc..)
+2. User fills form
+3. User logs in
+4. Popup/Window will closed/hidden
+
+Extensions:
+- 3a: There is no account
 ** Renew Subscription
 Goal Level: Sea Level \\
 Main Success Scenario: 
@@ -123,3 +137,4 @@ Extensions:
 - 4a: Error in fetch
     - Server is down
     - ...
+* Sequence Diagrams
