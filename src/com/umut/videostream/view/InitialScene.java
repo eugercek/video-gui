@@ -2,20 +2,23 @@ package com.umut.videostream.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 // Scenes are only reachable by a View instance
 class InitialScene extends JFrame {
-    private JButton createAccount, logIn;
+    final JButton createAccountButton;
+    final JButton logInButton;
     Container container;
 
+
     public InitialScene(){
-        createAccount = new JButton("Create Account");
-        logIn = new JButton("Login");
+        createAccountButton = new JButton("Create Account");
+        logInButton = new JButton("Login");
 
         container = getContentPane();
 
-        container.add(createAccount);
-        container.add(logIn);
+        container.add(createAccountButton);
+        container.add(logInButton);
 
         container.setLayout(new FlowLayout());
         setLocationRelativeTo(null);
@@ -23,5 +26,14 @@ class InitialScene extends JFrame {
 
         setSize(300,300);
         setVisible(true);
+    }
+
+    public void addCreatAccountListener(ActionListener listener){
+        createAccountButton.addActionListener(listener);
+
+    }
+
+    public void addLogInListener(ActionListener listener){
+        logInButton.addActionListener(listener);
     }
 }
