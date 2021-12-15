@@ -44,4 +44,14 @@ public class InitialScene extends JFrame {
     public void addLogInListener(ActionListener listener) {
         logInButton.addActionListener(listener);
     }
+
+    public void blockScreen(){
+        createAccountButton.setEnabled(false);
+        logInButton.setEnabled(false);
+    }
+
+    public void activateScreen(){
+        createAccountButton.setEnabled(true);
+        logInButton.setEnabled(true);
+    }
 }

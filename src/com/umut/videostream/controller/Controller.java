@@ -3,6 +3,12 @@ package com.umut.videostream.controller;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.nio.channels.spi.AbstractInterruptibleChannel;
+
 public class Controller {
     View view;
     Model model;
@@ -13,6 +19,13 @@ public class Controller {
         bindEventHandlers();
 
         view.createInitialWindow();
+
+        try {
+            model.getRepo().connectDatabase();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+           serverConnectionError(1, "Server connection error! please try 3 seconds later.");
+        }
     }
 
     public void switchLoginScene(){
@@ -65,5 +78,20 @@ public class Controller {
         final String password = view.getCreateAccountScene().getPasswordValue();
 
         System.out.println(name + " " + surname + " " + email + " " + username + " " + password);
+    }
+    public void serverConnectionError(int seconds, String message){
+        view.blockInitialScreen();
+
+        JOptionPane.showMessageDialog(null, "Server connection error: " + message, "Connection Error", JOptionPane.WARNING_MESSAGE);
+
+        ActionListener listener = new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                view.activateInitialScreen();
+            }
+        };
+        
+        Timer timer = new Timer(seconds * 1000, listener);
+        timer.setRepeats(false);
+        timer.start();
     }
 }

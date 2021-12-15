@@ -10,5 +10,5 @@ public interface IDatabaseRepository {
     void add(User user);
     void update(User user);
     void connectDatabase() throws IOException;
-    String parseConnectionString() throws IOException;
+    String parseConnectionString(String rawConnectionString) throws IOException;
 }

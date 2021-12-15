@@ -9,14 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/*
+    You need to load database with `connectDatabase()`.
+ */
 public class TextFileDatabaseRepository implements IDatabaseRepository{
     private Scanner scanner;
     private String connectionString;
 
     public TextFileDatabaseRepository(String path){
         connectionString = parseConnectionString(path);
-        connectDatabase();
-
     }
 
     @Override
@@ -43,9 +44,7 @@ public class TextFileDatabaseRepository implements IDatabaseRepository{
     /*
       No need to parse in this implementation.
      */
-    public String parseConnectionString() {
-        return connectionString;
+    public String parseConnectionString(String rawConnectionString) {
+        return rawConnectionString;
     }
-
-
 }
