@@ -1,5 +1,7 @@
 package com.umut.videostream.controller;
 
+import com.umut.videostream.model.User;
+import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
@@ -7,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 
 public class Controller {
@@ -24,7 +27,23 @@ public class Controller {
             model.getRepo().connectDatabase();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-           serverConnectionError(1, "Server connection error! please try 3 seconds later.");
+           serverConnectionError(3, "Server connection error! please try 3 seconds later.");
+        }
+
+        try {
+            User user = model.getRepo().get(new User("umut"));
+            System.out.println(user);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            User newUser = model.getRepo().add(new User("umut", "123", "foo", "bar", "baro"));
+            System.out.println(newUser);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -89,7 +108,7 @@ public class Controller {
                 view.activateInitialScreen();
             }
         };
-        
+
         Timer timer = new Timer(seconds * 1000, listener);
         timer.setRepeats(false);
         timer.start();

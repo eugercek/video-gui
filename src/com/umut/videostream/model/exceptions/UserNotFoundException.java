@@ -9,6 +9,6 @@ public class UserNotFoundException extends IOException {
     }
 
     public UserNotFoundException(User user){
-        super(user.getUsername() + "User not found");
+        super("User " + user.getUsername() + " not found");
     }
 }

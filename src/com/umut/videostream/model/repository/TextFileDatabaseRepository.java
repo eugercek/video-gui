@@ -5,6 +5,8 @@ import com.umut.videostream.model.exceptions.UserNotFoundException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /*
@@ -22,12 +24,12 @@ public class TextFileDatabaseRepository implements IDatabaseRepository{
     public User get(User user) throws FileNotFoundException,UserNotFoundException {
         connectDatabase();
         while(scanner.hasNextLine()){
-            String username = scanner.next(); // Username
+            String username = scanner.next();
             if(user.getUsername().equals(username)){
-                String password = scanner.next(); // Password
-                String name = scanner.next(); // Name
-                String surname = scanner.next(); // Surname
-                String email = scanner.next(); // Email
+                String password = scanner.next();
+                String name = scanner.next();
+                String surname = scanner.next();
+                String email = scanner.next();
                 return new User(username, password, name, surname, email);
             }
         }
@@ -35,14 +37,12 @@ public class TextFileDatabaseRepository implements IDatabaseRepository{
     }
 
     @Override
-    public void add(User user) throws FileNotFoundException {
-        connectDatabase();
-    }
-
-    @Override
-    public void update(User user) throws FileNotFoundException {
-        connectDatabase();
-
+    // TODO Add unique username check
+    public User add(User user) throws IOException {
+        FileWriter writer = new FileWriter(connectionString);
+        writer.append(formatUserForWrite(user));
+        writer.close();
+        return user;
     }
 
     @Override
@@ -57,5 +57,10 @@ public class TextFileDatabaseRepository implements IDatabaseRepository{
      */
     public String parseConnectionString(String rawConnectionString) {
         return rawConnectionString;
+    }
+
+    private String formatUserForWrite(User user){
+        String[] values = {user.getUsername(), user.getPassword(), user.getName(), user.getSurname(), user.getEmail()};
+        return String.join(" ", values);
     }
 }
