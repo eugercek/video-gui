@@ -1,12 +1,10 @@
 package com.umut.videostream.model.repository;
+
 import com.umut.videostream.model.User;
+import com.umut.videostream.model.exceptions.UserNotFoundException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 /*
@@ -21,16 +19,29 @@ public class TextFileDatabaseRepository implements IDatabaseRepository{
     }
 
     @Override
-    public User get(User user) {
-        return new User();
+    public User get(User user) throws FileNotFoundException,UserNotFoundException {
+        connectDatabase();
+        while(scanner.hasNextLine()){
+            String username = scanner.next(); // Username
+            if(user.getUsername().equals(username)){
+                String password = scanner.next(); // Password
+                String name = scanner.next(); // Name
+                String surname = scanner.next(); // Surname
+                String email = scanner.next(); // Email
+                return new User(username, password, name, surname, email);
+            }
+        }
+        throw new UserNotFoundException(user);
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user) throws FileNotFoundException {
+        connectDatabase();
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user) throws FileNotFoundException {
+        connectDatabase();
 
     }
 

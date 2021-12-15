@@ -1,6 +1,16 @@
 package com.umut.videostream.model;
 
 public class User {
+    private String name, surname, username, password, email, accountType;
+
+    public User(){ }
+    public User(String username, String password, String name, String surname, String email){
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
     public String getName() {
         return name;
     }
@@ -48,6 +58,4 @@ public class User {
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
-
-    private String name, surname, username, password, email, accountType;
 }
