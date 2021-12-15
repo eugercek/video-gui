@@ -1,4 +1,4 @@
-import com.umut.videostream.Controller.Controller;
+import com.umut.videostream.controller.Controller;
 import com.umut.videostream.model.Model;
 import com.umut.videostream.view.View;
 

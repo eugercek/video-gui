@@ -66,7 +66,7 @@ rectangle "Main Screen"{
 #+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-cbYO8z/plantuml-N9Hxrm.png]]
+[[file:/tmp/babel-f5Ayd3/plantuml-C3y85W.png]]
 
 ** Create Account
 Goal Level: Sea Level \\

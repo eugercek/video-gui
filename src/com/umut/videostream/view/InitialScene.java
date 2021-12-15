@@ -6,12 +6,19 @@ import java.awt.event.ActionListener;
 
 // Scenes are only reachable by a View instance
 class InitialScene extends JFrame {
-    final JButton createAccountButton;
-    final JButton logInButton;
-    Container container;
+    private JButton createAccountButton;
+    private JButton logInButton;
+    private Container container;
 
+    public JButton getCreateAccountButton() {
+        return createAccountButton;
+    }
 
-    public InitialScene(){
+    public JButton getLogInButton() {
+        return logInButton;
+    }
+
+    public InitialScene() {
         createAccountButton = new JButton("Create Account");
         logInButton = new JButton("Login");
 
@@ -21,19 +28,19 @@ class InitialScene extends JFrame {
         container.add(logInButton);
 
         container.setLayout(new FlowLayout());
-        setLocationRelativeTo(null);
-        setResizable(false);
 
-        setSize(300,300);
-        setVisible(true);
+        setSize(300, 300);
+        setResizable(false);
+        setLocationRelativeTo(null);
+
     }
 
-    public void addCreatAccountListener(ActionListener listener){
+    public void addCreatAccountListener(ActionListener listener) {
         createAccountButton.addActionListener(listener);
 
     }
 
-    public void addLogInListener(ActionListener listener){
+    public void addLogInListener(ActionListener listener) {
         logInButton.addActionListener(listener);
     }
 }

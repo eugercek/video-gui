@@ -1,4 +1,4 @@
-package com.umut.videostream.Controller;
+package com.umut.videostream.controller;
 
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
