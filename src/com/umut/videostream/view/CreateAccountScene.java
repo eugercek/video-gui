@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class CreateAccountScene extends JFrame{
+public class CreateAccountScene extends JFrame implements IFreezable{
     private JTextField nameTextField, surnameTextField, emailTextField, usernameTextField,passwordTextField;
     private JLabel nameLabel, surnameLabel, emailLabel, usernameLabel, passwordLabel;
     private Container container;
@@ -86,5 +86,15 @@ public class CreateAccountScene extends JFrame{
 
     public JButton getSubmitButton() {
         return submitButton;
+    }
+
+    @Override
+    public void freezeScene() {
+        submitButton.setEnabled(false);
+    }
+
+    @Override
+    public void unfreezeScene() {
+        submitButton.setEnabled(true);
     }
 }

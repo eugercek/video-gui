@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 // Scenes are only reachable by a View instance
-public class InitialScene extends JFrame {
+public class InitialScene extends JFrame implements IFreezable {
     private JButton createAccountButton;
     private JButton logInButton;
     private Container container;
@@ -45,13 +45,17 @@ public class InitialScene extends JFrame {
         logInButton.addActionListener(listener);
     }
 
-    public void blockScreen(){
+    @Override
+    public void freezeScene() {
         createAccountButton.setEnabled(false);
         logInButton.setEnabled(false);
+
     }
 
-    public void activateScreen(){
+    @Override
+    public void unfreezeScene() {
         createAccountButton.setEnabled(true);
         logInButton.setEnabled(true);
+
     }
 }

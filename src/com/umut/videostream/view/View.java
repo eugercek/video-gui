@@ -27,12 +27,4 @@ public class View {
         return loginScene;
     }
 
-    public void blockInitialScreen(){
-        initialScene.blockScreen();
-    }
-
-    public void activateInitialScreen(){
-        initialScene.activateScreen();
-    }
-
 }

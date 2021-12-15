@@ -2,6 +2,8 @@ package com.umut.videostream.controller;
 
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
+import com.umut.videostream.view.IFreezable;
+import com.umut.videostream.view.InitialScene;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
@@ -27,23 +29,7 @@ public class Controller {
             model.getRepo().connectDatabase();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-           serverConnectionError(3, "Server connection error! please try 3 seconds later.");
-        }
-
-        try {
-            User user = model.getRepo().get(new User("umut"));
-            System.out.println(user);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            User newUser = model.getRepo().add(new User("umut", "123", "foo", "bar", "baro"));
-            System.out.println(newUser);
-        } catch (IOException e) {
-            e.printStackTrace();
+           serverConnectionError(3, "Server connection error! please try 3 seconds later.", view.getInitialScene());
         }
     }
 
@@ -86,7 +72,14 @@ public class Controller {
     public void logIn(){
         final String username = view.getLoginScene().getUsernameValue();
         final String password = view.getLoginScene().getPasswordValue();
-        System.out.println(username + " " + password);
+        try {
+            User user = model.getRepo().get(new User("umut"));
+            System.out.println(user);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createAccount(){
@@ -96,16 +89,21 @@ public class Controller {
         final String username = view.getCreateAccountScene().getUsernameValue();
         final String password = view.getCreateAccountScene().getPasswordValue();
 
-        System.out.println(name + " " + surname + " " + email + " " + username + " " + password);
+        try {
+            User newUser = model.getRepo().add(new User(username, password, name, surname, email));
+            System.out.println(newUser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    public void serverConnectionError(int seconds, String message){
-        view.blockInitialScreen();
+    public void serverConnectionError(int seconds, String message, IFreezable scene){
+        scene.freezeScene();
 
         JOptionPane.showMessageDialog(null, "Server connection error: " + message, "Connection Error", JOptionPane.WARNING_MESSAGE);
 
         ActionListener listener = new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                view.activateInitialScreen();
+                scene.unfreezeScene();
             }
         };
 

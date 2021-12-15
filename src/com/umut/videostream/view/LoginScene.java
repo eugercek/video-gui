@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class LoginScene extends JFrame {
+public class LoginScene extends JFrame  implements IFreezable{
     private JTextField usernameTextField, passwordTextField;
     private JLabel usernameLabel, passwordLabel;
     private Container container;
@@ -58,4 +58,13 @@ public class LoginScene extends JFrame {
         return submitButton;
     }
 
+    @Override
+    public void freezeScene() {
+        submitButton.setEnabled(false);
+    }
+
+    @Override
+    public void unfreezeScene() {
+        submitButton.setEnabled(true);
+    }
 }
