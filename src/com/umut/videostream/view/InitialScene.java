@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 // Scenes are only reachable by a View instance
-class InitialScene extends JFrame {
+public class InitialScene extends JFrame {
     private JButton createAccountButton;
     private JButton logInButton;
     private Container container;
