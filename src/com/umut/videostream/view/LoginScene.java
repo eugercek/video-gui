@@ -11,6 +11,8 @@ public class LoginScene extends JFrame {
     private Container container;
     private JFrame caller;
 
+    private JButton submitButton;
+
     public LoginScene(JFrame caller){
         this.caller = caller;
         usernameLabel = new JLabel("Username");
@@ -19,6 +21,8 @@ public class LoginScene extends JFrame {
         passwordLabel = new JLabel("Password");
         passwordTextField = new JTextField(20);
 
+        submitButton = new JButton("Login");
+
         container = getContentPane();
 
         container.add(usernameLabel);
@@ -26,6 +30,8 @@ public class LoginScene extends JFrame {
 
         container.add(passwordLabel);
         container.add(passwordTextField);
+
+        container.add(submitButton);
 
         container.setLayout(new FlowLayout());
 
@@ -47,4 +53,9 @@ public class LoginScene extends JFrame {
     public String getPasswordValue(){
         return passwordTextField.getText();
     }
+
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
 }

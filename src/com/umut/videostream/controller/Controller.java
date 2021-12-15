@@ -27,6 +27,7 @@ public class Controller {
 
     private void bindEventHandlers(){
         bindInitialSceneHandlers();
+        bindLoginSceneHandlers();
     }
 
     private void bindInitialSceneHandlers(){
@@ -39,4 +40,30 @@ public class Controller {
                 .addActionListener(e -> switchLoginScene());
     }
 
+    private  void bindLoginSceneHandlers(){
+        view.getLoginScene()
+                .getSubmitButton()
+                .addActionListener(e -> logIn());
+
+        view.getCreateAccountScene()
+                .getSubmitButton()
+                .addActionListener(e -> createAccount());
+
+    }
+
+    public void logIn(){
+        final String username = view.getLoginScene().getUsernameValue();
+        final String password = view.getLoginScene().getPasswordValue();
+        System.out.println(username + " " + password);
+    }
+
+    public void createAccount(){
+        final String name = view.getCreateAccountScene().getNameValue();
+        final String surname = view.getCreateAccountScene().getSurnameValue();
+        final String email = view.getCreateAccountScene().getEmailValue();
+        final String username = view.getCreateAccountScene().getUsernameValue();
+        final String password = view.getCreateAccountScene().getPasswordValue();
+
+        System.out.println(name + " " + surname + " " + email + " " + username + " " + password);
+    }
 }

@@ -10,6 +10,7 @@ public class CreateAccountScene extends JFrame{
     private JLabel nameLabel, surnameLabel, emailLabel, usernameLabel, passwordLabel;
     private Container container;
     private JFrame caller;
+    private JButton submitButton;
 
     public CreateAccountScene(JFrame caller){
         this.caller = caller;
@@ -28,6 +29,8 @@ public class CreateAccountScene extends JFrame{
         usernameLabel = new JLabel("Username");
         usernameTextField = new JTextField(20);
 
+        submitButton = new JButton("Create Account");
+
         container = getContentPane();
 
         container.add(nameLabel);
@@ -45,10 +48,12 @@ public class CreateAccountScene extends JFrame{
         container.add(passwordLabel);
         container.add(passwordTextField);
 
+        container.add(submitButton);
+
         container.setLayout(new FlowLayout());
 
         setSize(600,800);
-        setResizable(false);
+        // setResizable(false);
         setLocationRelativeTo(null);
 
 
@@ -77,5 +82,9 @@ public class CreateAccountScene extends JFrame{
 
     public String getPasswordValue(){
         return passwordTextField.getText();
+    }
+
+    public JButton getSubmitButton() {
+        return submitButton;
     }
 }
