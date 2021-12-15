@@ -32,6 +32,7 @@ public class InitialScene extends JFrame {
         setSize(300, 300);
         setResizable(false);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 

@@ -6,8 +6,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CreateAccountScene extends JFrame{
-    private JTextField nameTextField, surnameTextField, emailTextField;
-    private JLabel nameLabel, surnameLabel, emailLabel;
+    private JTextField nameTextField, surnameTextField, emailTextField, usernameTextField,passwordTextField;
+    private JLabel nameLabel, surnameLabel, emailLabel, usernameLabel, passwordLabel;
     private Container container;
     private JFrame caller;
 
@@ -22,6 +22,12 @@ public class CreateAccountScene extends JFrame{
         emailLabel = new JLabel("Email");
         emailTextField = new JTextField(20);
 
+        passwordLabel = new JLabel("Password");
+        passwordTextField = new JTextField(20);
+
+        usernameLabel = new JLabel("Username");
+        usernameTextField = new JTextField(20);
+
         container = getContentPane();
 
         container.add(nameLabel);
@@ -33,6 +39,11 @@ public class CreateAccountScene extends JFrame{
         container.add(emailLabel);
         container.add(emailTextField);
 
+        container.add(usernameLabel);
+        container.add(usernameTextField);
+
+        container.add(passwordLabel);
+        container.add(passwordTextField);
 
         container.setLayout(new FlowLayout());
 
@@ -46,5 +57,25 @@ public class CreateAccountScene extends JFrame{
                 caller.setVisible(true);
             }
         });
+    }
+
+    public String getNameValue(){
+        return nameTextField.getText();
+    }
+
+    public String getSurnameValue(){
+        return surnameTextField.getText();
+    }
+
+    public String getEmailValue(){
+        return emailTextField.getText();
+    }
+
+    public String getUsernameValue(){
+        return usernameTextField.getText();
+    }
+
+    public String getPasswordValue(){
+        return passwordTextField.getText();
     }
 }
