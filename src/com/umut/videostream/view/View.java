@@ -1,12 +1,10 @@
 package com.umut.videostream.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class View {
     private InitialScene initialScene = new InitialScene();
     private CreateAccountScene createAccountScene = new CreateAccountScene(initialScene);
     private LoginScene loginScene = new LoginScene(initialScene);
+    private AdminScene adminScene = new AdminScene();
 
     public View() {
     }
@@ -27,4 +25,7 @@ public class View {
         return loginScene;
     }
 
+    public AdminScene getAdminScene() {
+        return adminScene;
+    }
 }

@@ -3,7 +3,6 @@ package com.umut.videostream.controller;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.view.IFreezable;
-import com.umut.videostream.view.InitialScene;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
@@ -12,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
 
 public class Controller {
     View view;
@@ -83,6 +81,7 @@ public class Controller {
     }
 
     public void createAccount(){
+        // TODO abstract below to .getUserCandidate()
         final String name = view.getCreateAccountScene().getNameValue();
         final String surname = view.getCreateAccountScene().getSurnameValue();
         final String email = view.getCreateAccountScene().getEmailValue();
