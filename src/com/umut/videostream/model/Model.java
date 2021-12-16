@@ -1,21 +1,19 @@
 package com.umut.videostream.model;
 
-import com.umut.videostream.model.repository.TextFileDatabaseRepository;
-
-import java.io.FileNotFoundException;
+import com.umut.videostream.model.repository.UserTextFileRepository;
 
 public class Model {
-    public TextFileDatabaseRepository repo;
+    public UserTextFileRepository userRepository;
     public Model(String connectionString){
-        repo = new TextFileDatabaseRepository(connectionString);
+        userRepository = new UserTextFileRepository(connectionString);
     }
 
     public void logIn(String username, String password){
 
     }
 
-    public TextFileDatabaseRepository getRepo() {
-        return repo;
+    public UserTextFileRepository getUserRepository() {
+        return userRepository;
     }
 
 }

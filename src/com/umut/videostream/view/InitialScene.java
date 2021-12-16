@@ -27,9 +27,12 @@ public class InitialScene extends JFrame implements IFreezable {
         container.add(createAccountButton);
         container.add(logInButton);
 
-        container.setLayout(new FlowLayout());
+        FlowLayout layout = new FlowLayout();
+        layout.setAlignment(FlowLayout.CENTER);
 
-        setSize(300, 300);
+        container.setLayout(layout);
+
+        setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

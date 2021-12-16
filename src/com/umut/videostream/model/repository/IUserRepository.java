@@ -5,7 +5,7 @@ import com.umut.videostream.model.exceptions.UserNotFoundException;
 
 import java.io.IOException;
 
-public interface IDatabaseRepository {
+public interface IUserRepository {
     User get(User user) throws UserNotFoundException,IOException;
     User add(User user) throws IOException;
     void connectDatabase() throws IOException;

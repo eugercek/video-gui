@@ -16,7 +16,7 @@ public class Controller {
     View view;
     Model model;
 
-    public  Controller(Model model, View view){
+    public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         bindEventHandlers();
@@ -24,29 +24,29 @@ public class Controller {
         view.createInitialWindow();
 
         try {
-            model.getRepo().connectDatabase();
+            model.getUserRepository().connectDatabase();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-           serverConnectionError(3, "Server connection error! please try 3 seconds later.", view.getInitialScene());
+            serverConnectionError(3, "Server connection error! please try 3 seconds later.", view.getInitialScene());
         }
     }
 
-    public void switchLoginScene(){
+    public void switchLoginScene() {
         view.getInitialScene().setVisible(false);
         view.getLoginScene().setVisible(true);
     }
 
-    public void switchToCreateAccountScene(){
+    public void switchToCreateAccountScene() {
         view.getInitialScene().setVisible(false);
         view.getCreateAccountScene().setVisible(true);
     }
 
-    private void bindEventHandlers(){
+    private void bindEventHandlers() {
         bindInitialSceneHandlers();
         bindLoginSceneHandlers();
     }
 
-    private void bindInitialSceneHandlers(){
+    private void bindInitialSceneHandlers() {
         view.getInitialScene()
                 .getCreateAccountButton()
                 .addActionListener(e -> switchToCreateAccountScene());
@@ -56,7 +56,7 @@ public class Controller {
                 .addActionListener(e -> switchLoginScene());
     }
 
-    private  void bindLoginSceneHandlers(){
+    private void bindLoginSceneHandlers() {
         view.getLoginScene()
                 .getSubmitButton()
                 .addActionListener(e -> logIn());
@@ -67,11 +67,11 @@ public class Controller {
 
     }
 
-    public void logIn(){
+    public void logIn() {
         final String username = view.getLoginScene().getUsernameValue();
         final String password = view.getLoginScene().getPasswordValue();
         try {
-            User user = model.getRepo().get(new User("umut"));
+            User user = model.getUserRepository().get(new User("umut"));
             System.out.println(user);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class Controller {
         }
     }
 
-    public void createAccount(){
+    public void createAccount() {
         // TODO abstract below to .getUserCandidate()
         final String name = view.getCreateAccountScene().getNameValue();
         final String surname = view.getCreateAccountScene().getSurnameValue();
@@ -89,19 +89,20 @@ public class Controller {
         final String password = view.getCreateAccountScene().getPasswordValue();
 
         try {
-            User newUser = model.getRepo().add(new User(username, password, name, surname, email));
+            User newUser = model.getUserRepository().add(new User(username, password, name, surname, email));
             System.out.println(newUser);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void serverConnectionError(int seconds, String message, IFreezable scene){
+
+    public void serverConnectionError(int seconds, String message, IFreezable scene) {
         scene.freezeScene();
 
         JOptionPane.showMessageDialog(null, "Server connection error: " + message, "Connection Error", JOptionPane.WARNING_MESSAGE);
 
-        ActionListener listener = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 scene.unfreezeScene();
             }
         };

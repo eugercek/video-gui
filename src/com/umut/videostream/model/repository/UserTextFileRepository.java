@@ -12,11 +12,11 @@ import java.util.Scanner;
 /*
     You need to load database with `connectDatabase()`.
  */
-public class TextFileDatabaseRepository implements IDatabaseRepository{
+public class UserTextFileRepository implements IUserRepository {
     private Scanner scanner;
     private String connectionString;
 
-    public TextFileDatabaseRepository(String path){
+    public UserTextFileRepository(String path){
         connectionString = parseConnectionString(path);
     }
 
