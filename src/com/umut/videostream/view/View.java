@@ -1,12 +1,16 @@
 package com.umut.videostream.view;
 
 public class View {
-    private InitialScene initialScene = new InitialScene();
-    private CreateAccountScene createAccountScene = new CreateAccountScene(initialScene);
-    private LoginScene loginScene = new LoginScene(initialScene);
-    private AdminScene adminScene = new AdminScene();
+    private InitialScene initialScene;
+    private CreateAccountScene createAccountScene;
+    private LoginScene loginScene;
+    private AdminScene adminScene;
 
     public View() {
+        initialScene = new InitialScene();
+        createAccountScene = new CreateAccountScene(initialScene);
+        loginScene = new LoginScene(initialScene);
+        adminScene = new AdminScene();
     }
 
     public void createInitialWindow() {

@@ -17,7 +17,7 @@ public class NetworkOperations {
 
         int responseCode = connection.getResponseCode();
 
-        if (isConnectionSuccessful(responseCode)) {
+        if (!isConnectionSuccessful(responseCode)) {
             throw new IOException("HttpResponseCode: " + responseCode);
         } else {
 

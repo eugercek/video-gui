@@ -1,17 +1,28 @@
-package com.umut.videostream.model.repository;
+package com.umut.videostream.model.repository.tmdb;
 
+import com.google.gson.Gson;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.enums.EMovieGenre;
 import com.umut.videostream.model.enums.ESubscriptionType;
+import com.umut.videostream.model.repository.IMovieRepository;
+import com.umut.videostream.model.services.NetworkOperations;
+
+import java.io.IOException;
 import java.text.MessageFormat;
 
-public class MovieTMDBRepository implements IMovieRepository{
+public class MovieTMDBRepository implements IMovieRepository {
     private static final String API_KEY  = "c787ec79f5645b11b37480a74e0cc95b";
     private static final String IMG_BASE_URL  = "https://image.tmdb.org/t/p/";
+    private final Gson gson;
+
+    public MovieTMDBRepository(){
+        gson = new Gson();
+    }
 
     @Override
-    public Movie[] getMoviesByGenre(EMovieGenre genre) {
-        return new Movie[0];
+    public Movie[] getMoviesByGenre(EMovieGenre genre) throws IOException {
+        String resp = NetworkOperations.downloadJsonString(getGenreUrl(genre));
+        return gson.fromJson(resp, TMDBResponseModel.class).getMovies();
     }
 
     @Override
@@ -45,6 +56,18 @@ public class MovieTMDBRepository implements IMovieRepository{
             case HISTORY -> 36;
             case HORROR -> 27;
             case MUSIC -> 10402;
+        };
+    }
+    private EMovieGenre getGenreById(int id){
+        return switch (id){
+            case 28 -> EMovieGenre.ACTION ;
+            case 35 -> EMovieGenre.COMEDY;
+            case 99 -> EMovieGenre.DOCUMENTARY;
+            case 18 -> EMovieGenre.DRAMA;
+            case 36 -> EMovieGenre.HISTORY;
+            case 27 -> EMovieGenre.HORROR;
+            case 10402 -> EMovieGenre.MUSIC;
+            default -> EMovieGenre.MUSIC;
         };
     }
 }

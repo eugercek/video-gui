@@ -28,6 +28,8 @@ public class Controller {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             serverConnectionError(3, "Server connection error! please try 3 seconds later.", view.getInitialScene());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -76,6 +78,8 @@ public class Controller {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
