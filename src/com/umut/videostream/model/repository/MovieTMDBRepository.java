@@ -24,6 +24,16 @@ public class MovieTMDBRepository implements IMovieRepository{
         return MessageFormat.format("{0}w{1}/{2}",IMG_BASE_URL ,width, posterPath);
     }
 
+    // http://api.themoviedb.org/3/discover/movie?api_key={{key}}&with_genres=35
+    private String getGenreUrl(EMovieGenre genre){
+        return MessageFormat.format("https://api.themoviedb.org/3/discover/movie?api_key={0}&with_genres={1}",
+                API_KEY,
+                getGenreId(genre)
+                );
+    }
+
+    // TODO Should bake this into Enum
+    // Problem of baking is can't extend enum, also can't hard code values in enum for obvious reasons
     // Implementation of API's id values
     // https://api.themoviedb.org/3/genre/movie/list?api_key={{key}}
     private int getGenreId(EMovieGenre genre){
@@ -37,6 +47,4 @@ public class MovieTMDBRepository implements IMovieRepository{
             case MUSIC -> 10402;
         };
     }
-
-    // http://api.themoviedb.org/3/discover/movie?api_key={{key}}&with_genres=35
 }
