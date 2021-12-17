@@ -3,7 +3,6 @@ package com.umut.videostream.model.repository;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.enums.EMovieGenre;
 import com.umut.videostream.model.enums.ESubscriptionType;
-
 import java.text.MessageFormat;
 
 public class MovieTMDBRepository implements IMovieRepository{
@@ -20,13 +19,13 @@ public class MovieTMDBRepository implements IMovieRepository{
         return new Movie[0];
     }
 
-    // https://image.tmdb.org/t/p/w500/bXAVveHiLotZbWdg3PKGhAzxYKP.jpg
+    // https://image.tmdb.org/t/p/w500/7ajHGIAYNMiIzejy1LJWdPrcAx8.jpg
     private String getPosterURL(int width, String posterPath){
         return MessageFormat.format("{0}w{1}/{2}",IMG_BASE_URL ,width, posterPath);
     }
 
     // Implementation of API's id values
-    // https://api.themoviedb.org/3/genre/movie/list?api_key={{your_api_key}}
+    // https://api.themoviedb.org/3/genre/movie/list?api_key={{key}}
     private int getGenreId(EMovieGenre genre){
         return switch (genre){
             case ACTION -> 28;
@@ -38,4 +37,6 @@ public class MovieTMDBRepository implements IMovieRepository{
             case MUSIC -> 10402;
         };
     }
+
+    // http://api.themoviedb.org/3/discover/movie?api_key={{key}}&with_genres=35
 }
