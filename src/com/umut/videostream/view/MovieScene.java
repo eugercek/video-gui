@@ -14,6 +14,7 @@ public class MovieScene extends JFrame implements IFreezable {
     private JPanel center;
     private JPanel right;
     private JPanel bottom;
+
     private JComboBox selectGenreComboBox;
 
     // Calculated  wanted look with reponse size my secreen
@@ -61,7 +62,7 @@ public class MovieScene extends JFrame implements IFreezable {
 
         top = new JPanel(new FlowLayout());
         left = new JPanel();
-        center = new JPanel(new GridLayout(3,3));
+        center = new JPanel(new GridLayout(3,3, 20,20));
         right = new JPanel();
         bottom = new JPanel();
 
@@ -122,14 +123,21 @@ public class MovieScene extends JFrame implements IFreezable {
         return (int)(ratioMap.get(direction).doubleValue() * getWindowHeight());
     }
 
-    public void renderComboBox(EMovieGenre[] genres){
+    public void renderComboBox(EMovieGenre[] genres, EMovieGenre initialGenre){
         // TODO Find map syntax
         String[] arr = new String[genres.length];
-        for(var genre : genres){
-            arr[0] = genre.toString();
+        for(int i =0 ; i < genres.length; i++){
+            arr[i] = genres[i].toString();
         }
         
         selectGenreComboBox = new JComboBox(arr);
+        selectGenreComboBox.setSelectedItem(initialGenre);
+
         top.add(selectGenreComboBox);
     }
+
+    public JComboBox getSelectGenreComboBox() {
+        return selectGenreComboBox;
+    }
+
 }

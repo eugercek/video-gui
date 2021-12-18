@@ -61,9 +61,11 @@ public class Controller {
     }
 
     private void loadInitialMovieState(){
-        var randomGenre = EMovieGenre.getRandomGenreForSubscriptionType(model.getActiveUser().getSubscriptionType());
+        var userGenres = EMovieGenre.getGenreListBySubscriptionType(model.getActiveUser().getSubscriptionType());
+        var randomGenre = EMovieGenre.getRandomGenre(userGenres);
+        System.out.println(randomGenre);
 
-        view.getMovieScene().renderComboBox(new EMovieGenre[]{randomGenre});
+        view.getMovieScene().renderComboBox(userGenres, randomGenre);
         loadMovies(randomGenre);
     }
 
