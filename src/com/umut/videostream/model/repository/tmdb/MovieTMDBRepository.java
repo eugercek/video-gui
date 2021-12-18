@@ -9,6 +9,7 @@ import com.umut.videostream.model.services.NetworkOperations;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 public class MovieTMDBRepository implements IMovieRepository {
     private static final String API_KEY  = "c787ec79f5645b11b37480a74e0cc95b";
@@ -22,7 +23,15 @@ public class MovieTMDBRepository implements IMovieRepository {
     @Override
     public Movie[] getMoviesByGenre(EMovieGenre genre) throws IOException {
         String resp = NetworkOperations.downloadJsonString(getGenreUrl(genre));
-        return gson.fromJson(resp, TMDBResponseModel.class).getMovies();
+        TMDBMovieModel[] tmdbMovieModels = gson.fromJson(resp, TMDBResponseModel.class).getMovies();
+        // TODO find map syntax
+
+        Movie[] movies = new Movie[tmdbMovieModels.length];
+        for(int i =0; i < tmdbMovieModels.length; i++){
+            movies[i] = MovieFactory.creatMovieFromTMDBMovieModel(tmdbMovieModels[i]);
+        }
+
+        return movies;
     }
 
     @Override
@@ -31,7 +40,7 @@ public class MovieTMDBRepository implements IMovieRepository {
     }
 
     // https://image.tmdb.org/t/p/w500/7ajHGIAYNMiIzejy1LJWdPrcAx8.jpg
-    private String getPosterURL(int width, String posterPath){
+    public static String getPosterURL(int width, String posterPath){
         return MessageFormat.format("{0}w{1}/{2}",IMG_BASE_URL ,width, posterPath);
     }
 

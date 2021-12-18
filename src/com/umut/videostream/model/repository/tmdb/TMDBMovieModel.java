@@ -7,7 +7,7 @@ import com.umut.videostream.model.enums.EMovieQuality;
 
 import java.util.Arrays;
 
-public class TMDBMovieModel extends Movie{
+public class TMDBMovieModel{
     private boolean adult;
     private int id;
     private String title;
@@ -21,11 +21,6 @@ public class TMDBMovieModel extends Movie{
 
     @SerializedName("genre_ids")
     private int[] genreIds;
-
-    public TMDBMovieModel(boolean adult, int id, String title, String overview, String posterPath, String hasVideo, int[] genreIds) {
-        // TODO Please learn Java's map syntax
-        super(getGenresById(genreIds), EMovieQuality.Q_2K, posterPath);
-    }
 
     @Override
     public String toString() {
@@ -54,10 +49,44 @@ public class TMDBMovieModel extends Movie{
     }
 
     private static EMovieGenre[] getGenresById(int[] idList){
+        // TODO Please learn Java's map syntax
         EMovieGenre[] genres = new EMovieGenre[idList.length];
         for (int i = 0; i < idList.length; i++) {
             genres[i]  = getGenreById(idList[i]);
         }
         return genres;
+    }
+
+    public EMovieGenre[] getGenres(){
+        return getGenresById(genreIds);
+    }
+
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public boolean isHasVideo() {
+        return hasVideo;
+    }
+
+    public int[] getGenreIds() {
+        return genreIds;
     }
 }
