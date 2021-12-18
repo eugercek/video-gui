@@ -1,11 +1,12 @@
 package com.umut.videostream.model.enums;
 
+import com.umut.videostream.model.exceptions.MovieGenreNotFound;
+
 import java.util.Random;
 
 public enum EMovieGenre {
     ACTION,
     COMEDY,
-    DOCUMENTARY,
     DRAMA,
     HISTORY,
     HORROR,
@@ -22,14 +23,12 @@ public enum EMovieGenre {
                     ACTION,
                     COMEDY,
                     DRAMA,
-                    HISTORY,
                     HORROR,
 
             };
             case VIP -> new EMovieGenre[]{
                     ACTION,
                     COMEDY,
-                    DOCUMENTARY,
                     DRAMA,
                     HISTORY,
                     HORROR,
@@ -58,5 +57,15 @@ public enum EMovieGenre {
         int index = generator.nextInt(genres.length);
 
         return genres[index];
+    }
+
+    public static EMovieGenre createGenreFromOrdinal(String string) throws MovieGenreNotFound {
+        for (EMovieGenre genre : EMovieGenre.values()) {
+            if(string.equals(genre.ordinal()))
+            {
+                return genre;
+            }
+        }
+        throw new MovieGenreNotFound(string);
     }
 }

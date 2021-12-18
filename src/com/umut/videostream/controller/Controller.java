@@ -3,6 +3,7 @@ package com.umut.videostream.controller;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.enums.EMovieGenre;
+import com.umut.videostream.model.exceptions.MovieGenreNotFound;
 import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
@@ -95,6 +96,12 @@ public class Controller {
 
     }
 
+    private void bindMovieSceneHandlers(){
+        view.getMovieScene()
+                .getSelectGenreComboBox()
+                .addActionListener(e -> changeGenre());
+    }
+
     public void logIn() {
         final String username = view.getLoginScene().getUsernameValue();
         final String password = view.getLoginScene().getPasswordValue();
@@ -145,5 +152,17 @@ public class Controller {
 
     public void wrongLoginRequest() {
         JOptionPane.showMessageDialog(null, "Username or password is wrong", "Connection Error", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void changeGenre(){
+        String stringGenre = (String) view.getMovieScene().getSelectGenreComboBox().getSelectedItem();
+
+        try {
+            EMovieGenre genre = EMovieGenre.createGenreFromOrdinal(stringGenre);
+            loadMovies(genre);
+        } catch (MovieGenreNotFound e) {
+            // This is not possible but who knows ...
+            e.printStackTrace();
+        }
     }
 }

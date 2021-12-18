@@ -5,6 +5,7 @@ import com.umut.videostream.model.enums.EMovieGenre;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.util.EnumMap;
 
 public class MovieScene extends JFrame implements IFreezable {
@@ -15,7 +16,7 @@ public class MovieScene extends JFrame implements IFreezable {
     private JPanel right;
     private JPanel bottom;
 
-    private JComboBox selectGenreComboBox;
+    private JComboBox<EMovieGenre> selectGenreComboBox;
 
     // Calculated  wanted look with reponse size my secreen
         /*
@@ -80,6 +81,8 @@ public class MovieScene extends JFrame implements IFreezable {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter(){ });
     }
 
     @Override
@@ -124,19 +127,13 @@ public class MovieScene extends JFrame implements IFreezable {
     }
 
     public void renderComboBox(EMovieGenre[] genres, EMovieGenre initialGenre){
-        // TODO Find map syntax
-        String[] arr = new String[genres.length];
-        for(int i =0 ; i < genres.length; i++){
-            arr[i] = genres[i].toString();
-        }
-        
-        selectGenreComboBox = new JComboBox(arr);
+        selectGenreComboBox = new JComboBox<>(genres);
         selectGenreComboBox.setSelectedItem(initialGenre);
 
         top.add(selectGenreComboBox);
     }
 
-    public JComboBox getSelectGenreComboBox() {
+    public JComboBox<EMovieGenre> getSelectGenreComboBox() {
         return selectGenreComboBox;
     }
 

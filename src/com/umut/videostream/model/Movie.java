@@ -8,12 +8,14 @@ public class Movie {
     private EMovieQuality[] qualities;
     private String contentPath;
     private String title;
+    private boolean adult;
 
-    public Movie(EMovieGenre[] genre, EMovieQuality[] qualities, String contentPath, String title){
+    public Movie(EMovieGenre[] genre, EMovieQuality[] qualities, String contentPath, String title, boolean adult){
         this.genres = genre;
         this.qualities = qualities;
         this.contentPath = contentPath;
         this.title = title;
+        this.adult = adult;
 
     }
 

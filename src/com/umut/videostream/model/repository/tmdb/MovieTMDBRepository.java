@@ -59,7 +59,6 @@ public class MovieTMDBRepository implements IMovieRepository {
         return switch (genre){
             case ACTION -> 28;
             case COMEDY -> 35;
-            case DOCUMENTARY -> 99;
             case DRAMA -> 18;
             case HISTORY -> 36;
             case HORROR -> 27;
@@ -70,7 +69,6 @@ public class MovieTMDBRepository implements IMovieRepository {
         return switch (id){
             case 28 -> EMovieGenre.ACTION ;
             case 35 -> EMovieGenre.COMEDY;
-            case 99 -> EMovieGenre.DOCUMENTARY;
             case 18 -> EMovieGenre.DRAMA;
             case 36 -> EMovieGenre.HISTORY;
             case 27 -> EMovieGenre.HORROR;

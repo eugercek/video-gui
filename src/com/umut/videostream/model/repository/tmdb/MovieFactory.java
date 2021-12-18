@@ -12,7 +12,8 @@ public class MovieFactory {
         EMovieQuality[] qualities ={EMovieQuality.Q_2K}; // TODO
         EMovieGenre[] genres = tmdb.getGenres();
         String contentPath = tmdb.getPosterPath();
+        boolean adult = tmdb.isAdult();
 
-        return new Movie(genres, qualities, contentPath, title);
+        return new Movie(genres, qualities, contentPath, title, adult);
     }
 }
