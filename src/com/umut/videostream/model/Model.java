@@ -7,8 +7,9 @@ import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 
 public class Model {
     // Waits for dependency injection :)
-    public IUserRepository userRepository;
-    public IMovieRepository movieRepository;
+    private IUserRepository userRepository;
+    private IMovieRepository movieRepository;
+    private User activeUser;
 
     public Model(String connectionString){
         userRepository = new UserMockAPIRepository();
@@ -27,4 +28,11 @@ public class Model {
         return movieRepository;
     }
 
+    public User getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
+    }
 }

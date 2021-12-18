@@ -1,7 +1,15 @@
 package com.umut.videostream.model;
 
+import com.umut.videostream.model.enums.EMovieGenre;
+import com.umut.videostream.model.enums.ESubscriptionType;
+
 public class User {
-    private String name, surname, username, password, email, subscriptionType;
+    private String name;
+    private String surname;
+    private String username;
+    private String password;
+    private String email;
+    private ESubscriptionType subscriptionType;
 
     public User(String username){
         this.username = username;
@@ -17,6 +25,7 @@ public class User {
         this.surname = surname;
         this.email = email;
     }
+
     public String getName() {
         return name;
     }
@@ -57,11 +66,11 @@ public class User {
         this.email = email;
     }
 
-    public String getSubscriptionType() {
+    public ESubscriptionType getSubscriptionType() {
         return subscriptionType;
     }
 
-    public void setSubscriptionType(String subscriptionType) {
+    public void setSubscriptionType(ESubscriptionType subscriptionType) {
         this.subscriptionType = subscriptionType;
     }
 

@@ -3,8 +3,9 @@ package com.umut.videostream.controller;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.enums.EMovieGenre;
+import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
+import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
-import com.umut.videostream.model.repository.tmdb.TMDBMovieModel;
 import com.umut.videostream.model.services.NetworkOperations;
 import com.umut.videostream.view.IFreezable;
 import com.umut.videostream.view.View;
@@ -42,7 +43,8 @@ public class Controller {
         view.getLoginScene().setVisible(false);
         view.getMovieScene().setVisible(true);
 
-        loadInitialVideos();
+
+        loadInitialMovieState();
     }
 
     private void loadMovies(EMovieGenre genre) {
@@ -58,8 +60,11 @@ public class Controller {
         }
     }
 
-    private void loadInitialVideos(){
-        loadMovies(EMovieGenre.getRandomGenre());
+    private void loadInitialMovieState(){
+        var randomGenre = EMovieGenre.getRandomGenreForSubscriptionType(model.getActiveUser().getSubscriptionType());
+
+        view.getMovieScene().renderComboBox(new EMovieGenre[]{randomGenre});
+        loadMovies(randomGenre);
     }
 
     private void bindEventHandlers() {
@@ -92,15 +97,16 @@ public class Controller {
         final String username = view.getLoginScene().getUsernameValue();
         final String password = view.getLoginScene().getPasswordValue();
 
-//        try {
-//            User user = model.getUserRepository().get(new User(username));
-//        }  catch (UserNotFoundException e) {
-//            wrongLoginRequest();
-//        } catch (IOException e) {
-//            serverConnectionError(3,"Server connection error", view.getLoginScene());
-//        }
-//
-        switchToVideoScene();
+        try {
+            User user = model.getUserRepository().get(new User(username));
+            model.setActiveUser(user);
+            switchToVideoScene();
+
+        }  catch (UserNotFoundException e) {
+            wrongLoginRequest();
+        } catch (IOException | SubscriptionTypeNotFound e) {
+            serverConnectionError(3, e.getMessage(), view.getLoginScene());
+        }
     }
 
     public void createAccount() {

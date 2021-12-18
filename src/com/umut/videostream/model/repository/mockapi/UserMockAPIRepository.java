@@ -2,6 +2,7 @@ package com.umut.videostream.model.repository.mockapi;
 
 import com.google.gson.Gson;
 import com.umut.videostream.model.User;
+import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.IUserRepository;
 import com.umut.videostream.model.services.NetworkOperations;
@@ -20,15 +21,16 @@ public class UserMockAPIRepository implements IUserRepository {
         gson = new Gson();
     }
     @Override
-    public User get(User user) throws UserNotFoundException, IOException {
+    public User get(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
-        User responseUser = gson.fromJson(json, User[].class)[0];
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
+        User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         // mockapi returns a user if there is no wanted user in db
         if(responseUser.getUsername().equals(user.getUsername())){
-            return user;
+            return realUser;
         }
-        throw new UserNotFoundException(responseUser);
+        throw new UserNotFoundException(realUser);
     }
 
     // There is no way to POST custom JSON in mockapi

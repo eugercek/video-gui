@@ -1,6 +1,7 @@
 package com.umut.videostream.view;
 
 import com.umut.videostream.model.enums.EDirection;
+import com.umut.videostream.model.enums.EMovieGenre;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class MovieScene extends JFrame implements IFreezable {
     private JPanel center;
     private JPanel right;
     private JPanel bottom;
+    private JComboBox selectGenreComboBox;
 
     // Calculated  wanted look with reponse size my secreen
         /*
@@ -62,7 +64,6 @@ public class MovieScene extends JFrame implements IFreezable {
         center = new JPanel(new GridLayout(3,3));
         right = new JPanel();
         bottom = new JPanel();
-
 
         top.setPreferredSize(new Dimension(100, getAppropriateHeightPixel(EDirection.TOP)));
         left.setPreferredSize(new Dimension(getAppropriateWidthPixel(EDirection.LEFT), 100));
@@ -119,5 +120,16 @@ public class MovieScene extends JFrame implements IFreezable {
             throw new Error("Wrong ratio usage");
         }
         return (int)(ratioMap.get(direction).doubleValue() * getWindowHeight());
+    }
+
+    public void renderComboBox(EMovieGenre[] genres){
+        // TODO Find map syntax
+        String[] arr = new String[genres.length];
+        for(var genre : genres){
+            arr[0] = genre.toString();
+        }
+        
+        selectGenreComboBox = new JComboBox(arr);
+        top.add(selectGenreComboBox);
     }
 }

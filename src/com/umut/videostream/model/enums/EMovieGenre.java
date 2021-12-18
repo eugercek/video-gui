@@ -44,4 +44,12 @@ public enum EMovieGenre {
 
         return EMovieGenre.values()[index];
     }
+
+    public static EMovieGenre getRandomGenreForSubscriptionType(ESubscriptionType subscriptionType){
+        Random generator = new Random();
+        EMovieGenre[] genres = getGenreListBySubscriptionType(subscriptionType);
+        int index = generator.nextInt(genres.length);
+
+        return genres[index];
+    }
 }
