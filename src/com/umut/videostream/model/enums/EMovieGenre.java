@@ -1,5 +1,7 @@
 package com.umut.videostream.model.enums;
 
+import java.util.Random;
+
 public enum EMovieGenre {
     ACTION,
     COMEDY,
@@ -9,7 +11,7 @@ public enum EMovieGenre {
     HORROR,
     MUSIC;
 
-    public EMovieGenre[] getGenreListBySubscriptionType(ESubscriptionType subscriptionType){
+    public static EMovieGenre[] getGenreListBySubscriptionType(ESubscriptionType subscriptionType){
         return switch (subscriptionType){
             case FREE -> new EMovieGenre[]{
                     ACTION,
@@ -36,4 +38,10 @@ public enum EMovieGenre {
         };
     }
 
+    public static EMovieGenre getRandomGenre(){
+        Random generator = new Random();
+        int index = generator.nextInt(EMovieGenre.values().length);
+
+        return EMovieGenre.values()[index];
+    }
 }

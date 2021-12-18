@@ -1,15 +1,19 @@
 package com.umut.videostream.controller;
 
+import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.User;
-import com.umut.videostream.model.exceptions.UserNotFoundException;
+import com.umut.videostream.model.enums.EMovieGenre;
+import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
+import com.umut.videostream.model.repository.tmdb.TMDBMovieModel;
+import com.umut.videostream.model.services.NetworkOperations;
 import com.umut.videostream.view.IFreezable;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Controller {
@@ -32,6 +36,30 @@ public class Controller {
     public void switchToCreateAccountScene() {
         view.getInitialScene().setVisible(false);
         view.getCreateAccountScene().setVisible(true);
+    }
+
+    public void switchToVideoScene() {
+        view.getLoginScene().setVisible(false);
+        view.getMovieScene().setVisible(true);
+
+        loadInitialVideos();
+    }
+
+    private void loadMovies(EMovieGenre genre) {
+        try {
+            Movie[] movies = model.getMovieRepository().getMoviesByGenre(genre);
+            for (Movie movie : movies) {
+                Image image = NetworkOperations.downloadImage(MovieTMDBRepository.getPosterURL(300, movie.getContentPath()));
+                view.getMovieScene().renderMovie("Title", image);
+            }
+        } catch (IOException e) {
+            serverConnectionError(1, "Server error", view.getMovieScene());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadInitialVideos(){
+        loadMovies(EMovieGenre.getRandomGenre());
     }
 
     private void bindEventHandlers() {
@@ -63,16 +91,16 @@ public class Controller {
     public void logIn() {
         final String username = view.getLoginScene().getUsernameValue();
         final String password = view.getLoginScene().getPasswordValue();
-        try {
-            User user = model.getUserRepository().get(new User("umut"));
-            System.out.println(user);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            User user = model.getUserRepository().get(new User(username));
+//        }  catch (UserNotFoundException e) {
+//            wrongLoginRequest();
+//        } catch (IOException e) {
+//            serverConnectionError(3,"Server connection error", view.getLoginScene());
+//        }
+//
+        switchToVideoScene();
     }
 
     public void createAccount() {
@@ -105,5 +133,9 @@ public class Controller {
         Timer timer = new Timer(seconds * 1000, listener);
         timer.setRepeats(false);
         timer.start();
+    }
+
+    public void wrongLoginRequest() {
+        JOptionPane.showMessageDialog(null, "Username or password is wrong", "Connection Error", JOptionPane.WARNING_MESSAGE);
     }
 }

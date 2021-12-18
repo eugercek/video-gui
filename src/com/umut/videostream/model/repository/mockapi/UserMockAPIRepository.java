@@ -22,7 +22,13 @@ public class UserMockAPIRepository implements IUserRepository {
     @Override
     public User get(User user) throws UserNotFoundException, IOException {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
-        return gson.fromJson(json, User[].class)[0];
+        User responseUser = gson.fromJson(json, User[].class)[0];
+
+        // mockapi returns a user if there is no wanted user in db
+        if(responseUser.getUsername().equals(user.getUsername())){
+            return user;
+        }
+        throw new UserNotFoundException(responseUser);
     }
 
     // There is no way to POST custom JSON in mockapi
