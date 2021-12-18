@@ -22,15 +22,6 @@ public class Controller {
         bindEventHandlers();
 
         view.createInitialWindow();
-
-        try {
-            model.getUserRepository().connectDatabase();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            serverConnectionError(3, "Server connection error! please try 3 seconds later.", view.getInitialScene());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void switchLoginScene() {

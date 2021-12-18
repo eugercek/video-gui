@@ -8,6 +8,5 @@ import java.io.IOException;
 public interface IUserRepository {
     User get(User user) throws UserNotFoundException,IOException;
     User add(User user) throws IOException;
-    void connectDatabase() throws IOException;
-    String parseConnectionString(String rawConnectionString) throws IOException;
+    User update(User user) throws IOException;
 }

@@ -1,7 +1,7 @@
 package com.umut.videostream.model;
 
 public class User {
-    private String name, surname, username, password, email, accountType;
+    private String name, surname, username, password, email, subscriptionType;
 
     public User(String username){
         this.username = username;
@@ -57,12 +57,12 @@ public class User {
         this.email = email;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public String getSubscriptionType() {
+        return subscriptionType;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setSubscriptionType(String subscriptionType) {
+        this.subscriptionType = subscriptionType;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", accountType='" + accountType + '\'' +
+                ", accountType='" + subscriptionType + '\'' +
                 '}';
     }
 }

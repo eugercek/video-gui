@@ -1,12 +1,9 @@
 package com.umut.videostream.model;
 
-import com.umut.videostream.model.enums.EMovieGenre;
 import com.umut.videostream.model.repository.IMovieRepository;
 import com.umut.videostream.model.repository.IUserRepository;
-import com.umut.videostream.model.repository.UserTextFileRepository;
+import com.umut.videostream.model.repository.mockapi.UserMockAPIRepository;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
-
-import java.io.IOException;
 
 public class Model {
     // Waits for dependency injection :)
@@ -14,7 +11,7 @@ public class Model {
     public IMovieRepository movieRepository;
 
     public Model(String connectionString){
-        userRepository = new UserTextFileRepository(connectionString);
+        userRepository = new UserMockAPIRepository();
         movieRepository = new MovieTMDBRepository();
     }
 

@@ -39,8 +39,7 @@ public class MovieTMDBRepository implements IMovieRepository {
     private String getGenreUrl(EMovieGenre genre){
         return MessageFormat.format("https://api.themoviedb.org/3/discover/movie?api_key={0}&with_genres={1}",
                 API_KEY,
-                getGenreId(genre)
-                );
+                getGenreId(genre));
     }
 
     // TODO Should bake this into Enum
