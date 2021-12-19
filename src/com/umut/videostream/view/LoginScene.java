@@ -35,7 +35,7 @@ public class LoginScene extends JFrame  implements IFreezable{
 
         container.setLayout(new FlowLayout());
 
-        setSize(600,800);
+        setSize(250,250);
         setResizable(false);
         setLocationRelativeTo(null);
 

@@ -16,8 +16,7 @@ public class View {
     }
 
     public void createInitialWindow() {
-        // initialScene.setVisible(true);
-        adminScene.setVisible(true);
+        initialScene.setVisible(true);
     }
 
     public InitialScene getInitialScene() {

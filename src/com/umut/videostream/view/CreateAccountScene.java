@@ -1,5 +1,7 @@
 package com.umut.videostream.view;
 
+import org.apache.http.conn.ConnectionReleaseTrigger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -8,7 +10,7 @@ import java.awt.event.WindowEvent;
 public class CreateAccountScene extends JFrame implements IFreezable{
     private JTextField nameTextField, surnameTextField, emailTextField, usernameTextField,passwordTextField;
     private JLabel nameLabel, surnameLabel, emailLabel, usernameLabel, passwordLabel;
-    private Container container;
+    private JPanel panel;
     private JFrame caller;
     private JButton submitButton;
 
@@ -31,29 +33,29 @@ public class CreateAccountScene extends JFrame implements IFreezable{
 
         submitButton = new JButton("Create Account");
 
-        container = getContentPane();
+        panel = new JPanel(new FlowLayout());
 
-        container.add(nameLabel);
-        container.add(nameTextField);
+        panel.add(nameLabel);
+        panel.add(nameTextField);
 
-        container.add(surnameLabel);
-        container.add(surnameTextField);
+        panel.add(surnameLabel);
+        panel.add(surnameTextField);
 
-        container.add(emailLabel);
-        container.add(emailTextField);
+        panel.add(emailLabel);
+        panel.add(emailTextField);
 
-        container.add(usernameLabel);
-        container.add(usernameTextField);
+        panel.add(usernameLabel);
+        panel.add(usernameTextField);
 
-        container.add(passwordLabel);
-        container.add(passwordTextField);
+        panel.add(passwordLabel);
+        panel.add(passwordTextField);
 
-        container.add(submitButton);
+        panel.add(submitButton);
 
-        container.setLayout(new FlowLayout());
+        getContentPane().add(panel);
 
-        setSize(600,800);
-        // setResizable(false);
+        setSize(250,300);
+        setResizable(true);
         setLocationRelativeTo(null);
 
 
