@@ -2,7 +2,7 @@ package com.umut.videostream.model;
 
 import com.umut.videostream.model.repository.IMovieRepository;
 import com.umut.videostream.model.repository.IUserRepository;
-import com.umut.videostream.model.repository.mockapi.UserMockAPIRepository;
+import com.umut.videostream.model.repository.UserJsonServerRepository;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 
 public class Model {
@@ -12,7 +12,7 @@ public class Model {
     private User activeUser;
 
     public Model(String connectionString){
-        userRepository = new UserMockAPIRepository();
+        userRepository = new UserJsonServerRepository();
         movieRepository = new MovieTMDBRepository();
     }
 
