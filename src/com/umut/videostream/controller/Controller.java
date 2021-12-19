@@ -12,13 +12,14 @@ import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 import com.umut.videostream.model.services.NetworkOperations;
 import com.umut.videostream.view.IFreezable;
 import com.umut.videostream.view.View;
+import com.umut.videostream.view.WatchScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -31,6 +32,7 @@ public class Controller {
     private final CreateAccountEventHandler createAccountEventHandler;
     private final InitialSceneEventHandler initialSceneEventHandler;
     private final  WatchEventHandler watchEventHandler;
+    private final  MovieMouseAdapter movieMouseAdapter;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -41,6 +43,7 @@ public class Controller {
         createAccountEventHandler = new CreateAccountEventHandler();
         initialSceneEventHandler = new InitialSceneEventHandler();
         watchEventHandler = new WatchEventHandler();
+        movieMouseAdapter = new MovieMouseAdapter();
 
         bindEventHandlers();
 
@@ -96,7 +99,7 @@ public class Controller {
             Movie[] movies = model.getMovieRepository().getMoviesByGenre(genre);
             for (Movie movie : movies) {
                 Image image = NetworkOperations.downloadImage(MovieTMDBRepository.getPosterURL(300, movie.getContentPath()));
-                view.getMovieScene().renderMovie("Title", image);
+                view.getMovieScene().renderMovie("Title", image, movieMouseAdapter);
             }
         } catch (IOException e) {
             serverConnectionError(1, "Server error", view.getMovieScene());
@@ -155,10 +158,17 @@ public class Controller {
     }
 
     private void changeQuality() {
-        ESubscriptionType type = model.getActiveUser().getSubscriptionType();
-        EMovieQuality[] list = EMovieQuality.getQualityListBySubscriptionType(type);
+        EMovieQuality quality = (EMovieQuality) view.getWatchScene().getQualityComboBox().getSelectedItem();
 
-        view.getWatchScene().setQualityList(list, watchEventHandler);
+        String message;
+
+        switch (quality){
+            case Q_2K -> message = "Watching movie in 2K :)";
+            case Q_720p-> message = "Watching movie in 720p";
+            default -> message = WatchScene.FIRST_MESSAGE;
+        }
+
+        view.getWatchScene().getLabel().setText(message);
     }
 
 
@@ -183,6 +193,13 @@ public class Controller {
         // At first Search by user id is usable
         scene.getSubscriptionTypeComboBox().setVisible(false);
     }
+
+    private void loadInitialWatchState() {
+        ESubscriptionType type = model.getActiveUser().getSubscriptionType();
+        EMovieQuality[] qualities = EMovieQuality.getQualityListBySubscriptionType(type);
+        view.getWatchScene().setQualityList(qualities, watchEventHandler);
+    }
+
 
 
     /*
@@ -324,8 +341,9 @@ public class Controller {
     private void switchToWatchScene(){
         view.getMovieScene().setVisible(false);
         view.getWatchScene().setVisible(true);
-    }
 
+        loadInitialWatchState();
+    }
 
     /*
     Event handler classes
@@ -357,39 +375,19 @@ public class Controller {
         }
     }
 
-    public class MovieEventHandler implements ActionListener, MouseListener {
+    public class MovieEventHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == view.getMovieScene().getSelectGenreComboBox()) {
                 changeGenre();
             }
         }
+    }
 
+    public class MovieMouseAdapter extends MouseAdapter{
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(e.getSource() instanceof JLabel){
-                switchToWatchScene();
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
+            switchToWatchScene();
         }
     }
 

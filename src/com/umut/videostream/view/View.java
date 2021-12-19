@@ -15,7 +15,7 @@ public class View {
         loginScene = new LoginScene(initialScene);
         adminScene = new AdminScene();
         movieScene = new MovieScene();
-        watchScene = new WatchScene();
+        watchScene = new WatchScene(movieScene);
     }
 
     public void createInitialWindow() {

@@ -1,39 +1,48 @@
 package com.umut.videostream.view;
 
-import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.enums.EMovieQuality;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class WatchScene extends JFrame implements IFreezable{
+    public static final String FIRST_MESSAGE = "Watching movie only 480p :(";
     JComboBox<EMovieQuality> qualityComboBox;
     Container container;
-    JLabel qualityLabel;
-    JLabel titleLabel;
+    JLabel label;
+    JFrame caller;
 
-    public WatchScene(){
-        qualityLabel = new JLabel("Select Quality");
-        qualityLabel.setFont(new Font("Serif", Font.PLAIN, 60));
+    public WatchScene(JFrame caller){
+        this.caller = caller;
+        label = new JLabel(FIRST_MESSAGE);
+        label.setFont(new Font("Serif", Font.PLAIN, 60));
 
-        qualityLabel.setHorizontalAlignment(JLabel.CENTER);
-        qualityLabel.setVerticalAlignment(JLabel.CENTER);
-        qualityLabel.setSize(1000, 500);
-        centerComponent(qualityLabel);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setSize(1000, 500);
+        centerComponent(label);
 
         qualityComboBox = new JComboBox<EMovieQuality>();
-        qualityComboBox.setSize(40,20);
+        qualityComboBox.setSize(80,20);
         centerComponent(qualityComboBox, 1920, 100);
 
         container = getContentPane();
         container.setLayout(null);
 
-        container.add(qualityLabel);
+        container.add(label);
         container.add(qualityComboBox);
 
 
         setSize(1920,1080);
+
+        addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                caller.setVisible(true);
+            }
+        });
     }
 
     @Override
@@ -73,15 +82,11 @@ public class WatchScene extends JFrame implements IFreezable{
         this.qualityComboBox = qualityComboBox;
     }
 
-    public JLabel getQualityLabel() {
-        return qualityLabel;
+    public JLabel getLabel() {
+        return label;
     }
 
-    public void setQualityLabel(JLabel qualityLabel) {
-        this.qualityLabel = qualityLabel;
-    }
-
-    public JLabel getTitleLabel() {
-        return titleLabel;
+    public void setLabel(JLabel label) {
+        this.label = label;
     }
 }

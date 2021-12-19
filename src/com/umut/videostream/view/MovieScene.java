@@ -6,6 +6,7 @@ import com.umut.videostream.model.enums.EMovieGenre;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.util.EnumMap;
 
@@ -101,8 +102,9 @@ public class MovieScene extends JFrame implements IFreezable {
 
     }
 
-    public void renderMovie(String name, Image image) {
+    public void renderMovie(String name, Image image, MouseAdapter adapter) {
         JLabel label = new JLabel(new ImageIcon(image));
+        label.addMouseListener(adapter);
         center.add(label);
     }
 
