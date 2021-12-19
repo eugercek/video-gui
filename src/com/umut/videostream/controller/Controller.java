@@ -8,7 +8,9 @@ import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 import com.umut.videostream.model.services.NetworkOperations;
+import com.umut.videostream.view.CreateAccountScene;
 import com.umut.videostream.view.IFreezable;
+import com.umut.videostream.view.InitialScene;
 import com.umut.videostream.view.View;
 import com.umut.videostream.model.Model;
 
@@ -19,88 +21,31 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class Controller {
-    View view;
-    Model model;
+    private View view;
+    private Model model;
+
+    private MovieEventHandler movieEventHandler;
+    private LoginEventHandler loginEventHandler;
+    private CreateAccountEventHandler createAccountEventHandler;
+    private InitialSceneEventHandler initialSceneEventHandler;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+
+        movieEventHandler = new MovieEventHandler();
+        loginEventHandler = new LoginEventHandler();
+        createAccountEventHandler = new CreateAccountEventHandler();
+        initialSceneEventHandler = new InitialSceneEventHandler();
+
         bindEventHandlers();
 
         view.createInitialWindow();
     }
 
-    public void switchLoginScene() {
-        view.getInitialScene().setVisible(false);
-        view.getLoginScene().setVisible(true);
-    }
-
-    public void switchToCreateAccountScene() {
-        view.getInitialScene().setVisible(false);
-        view.getCreateAccountScene().setVisible(true);
-    }
-
-    public void switchToVideoScene() {
-        view.getLoginScene().setVisible(false);
-        view.getMovieScene().setVisible(true);
-
-
-        loadInitialMovieState();
-    }
-
-    private void loadMovies(EMovieGenre genre) {
-        try {
-            Movie[] movies = model.getMovieRepository().getMoviesByGenre(genre);
-            for (Movie movie : movies) {
-                Image image = NetworkOperations.downloadImage(MovieTMDBRepository.getPosterURL(300, movie.getContentPath()));
-                view.getMovieScene().renderMovie("Title", image);
-            }
-        } catch (IOException e) {
-            serverConnectionError(1, "Server error", view.getMovieScene());
-            e.printStackTrace();
-        }
-    }
-
-    private void loadInitialMovieState(){
-        var userGenres = EMovieGenre.getGenreListBySubscriptionType(model.getActiveUser().getSubscriptionType());
-        var randomGenre = EMovieGenre.getRandomGenre(userGenres);
-        System.out.println(randomGenre);
-
-        view.getMovieScene().renderComboBox(userGenres, randomGenre);
-        loadMovies(randomGenre);
-    }
-
-    private void bindEventHandlers() {
-        bindInitialSceneHandlers();
-        bindLoginSceneHandlers();
-    }
-
-    private void bindInitialSceneHandlers() {
-        view.getInitialScene()
-                .getCreateAccountButton()
-                .addActionListener(e -> switchToCreateAccountScene());
-
-        view.getInitialScene()
-                .getLogInButton()
-                .addActionListener(e -> switchLoginScene());
-    }
-
-    private void bindLoginSceneHandlers() {
-        view.getLoginScene()
-                .getSubmitButton()
-                .addActionListener(e -> logIn());
-
-        view.getCreateAccountScene()
-                .getSubmitButton()
-                .addActionListener(e -> createAccount());
-
-    }
-
-    private void bindMovieSceneHandlers(){
-        view.getMovieScene()
-                .getSelectGenreComboBox()
-                .addActionListener(e -> changeGenre());
-    }
+    /*
+    Main functionality
+     */
 
     public void logIn() {
         final String username = view.getLoginScene().getUsernameValue();
@@ -111,7 +56,7 @@ public class Controller {
             model.setActiveUser(user);
             switchToVideoScene();
 
-        }  catch (UserNotFoundException e) {
+        } catch (UserNotFoundException e) {
             wrongLoginRequest();
         } catch (IOException | SubscriptionTypeNotFound e) {
             serverConnectionError(3, e.getMessage(), view.getLoginScene());
@@ -134,6 +79,88 @@ public class Controller {
         }
     }
 
+    private void loadMovies(EMovieGenre genre) {
+        try {
+            Movie[] movies = model.getMovieRepository().getMoviesByGenre(genre);
+            for (Movie movie : movies) {
+                Image image = NetworkOperations.downloadImage(MovieTMDBRepository.getPosterURL(300, movie.getContentPath()));
+                view.getMovieScene().renderMovie("Title", image);
+            }
+        } catch (IOException e) {
+            serverConnectionError(1, "Server error", view.getMovieScene());
+            e.printStackTrace();
+        }
+    }
+
+    public void changeGenre() {
+        view.getMovieScene().deleteMovies();
+        EMovieGenre genre = (EMovieGenre) view.getMovieScene().getSelectGenreComboBox().getSelectedItem();
+        System.out.println("Change: " + view.getMovieScene().getSelectGenreComboBox().getSelectedItem());
+        loadMovies(genre);
+    }
+
+
+   /*
+   State creators
+    */
+
+    private void loadInitialMovieState() {
+        var userGenres = EMovieGenre.getGenreListBySubscriptionType(model.getActiveUser().getSubscriptionType());
+        var randomGenre = EMovieGenre.getRandomGenre(userGenres);
+
+        System.out.println(randomGenre);
+
+        view.getMovieScene().renderComboBox(userGenres, randomGenre);
+        loadMovies(randomGenre);
+    }
+
+
+    /*
+    Event handler binders
+     */
+
+    private void bindEventHandlers() {
+        bindInitialSceneHandlers();
+
+        bindLoginSceneHandlers();
+        bindCreateAccountSceneHandlers();
+
+        bindMovieSceneHandlers();
+    }
+
+
+    private void bindInitialSceneHandlers() {
+        view.getInitialScene()
+                .getCreateAccountButton()
+                .addActionListener(initialSceneEventHandler);
+
+        view.getInitialScene()
+                .getLogInButton()
+                .addActionListener(initialSceneEventHandler);
+    }
+
+    private void bindLoginSceneHandlers() {
+        view.getLoginScene()
+                .getSubmitButton()
+                .addActionListener(loginEventHandler);
+    }
+
+    private void bindCreateAccountSceneHandlers() {
+        view.getCreateAccountScene()
+                .getSubmitButton()
+                .addActionListener(createAccountEventHandler);
+
+    }
+    private void bindMovieSceneHandlers() {
+        view.getMovieScene()
+                .getSelectGenreComboBox()
+                .addActionListener(movieEventHandler);
+    }
+
+
+    /*
+    Error related
+     */
     public void serverConnectionError(int seconds, String message, IFreezable scene) {
         scene.freezeScene();
 
@@ -154,15 +181,69 @@ public class Controller {
         JOptionPane.showMessageDialog(null, "Username or password is wrong", "Connection Error", JOptionPane.WARNING_MESSAGE);
     }
 
-    public void changeGenre(){
-        String stringGenre = (String) view.getMovieScene().getSelectGenreComboBox().getSelectedItem();
 
-        try {
-            EMovieGenre genre = EMovieGenre.createGenreFromOrdinal(stringGenre);
-            loadMovies(genre);
-        } catch (MovieGenreNotFound e) {
-            // This is not possible but who knows ...
-            e.printStackTrace();
+    /*
+    Scene logic
+     */
+
+    public void switchLoginScene() {
+        view.getInitialScene().setVisible(false);
+        view.getLoginScene().setVisible(true);
+    }
+
+    public void switchToCreateAccountScene() {
+        view.getInitialScene().setVisible(false);
+        view.getCreateAccountScene().setVisible(true);
+    }
+
+    public void switchToVideoScene() {
+        view.getLoginScene().setVisible(false);
+        view.getMovieScene().setVisible(true);
+
+
+        loadInitialMovieState();
+    }
+
+
+    /*
+    Event handler classes
+     */
+
+    private class InitialSceneEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == view.getInitialScene().getLogInButton()) {
+                switchLoginScene();
+            } else if (e.getSource() == view.getInitialScene().getCreateAccountButton()) {
+                switchToCreateAccountScene();
+            }
         }
     }
+
+    private class LoginEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == view.getLoginScene().getSubmitButton()) {
+                logIn();
+            }
+        }
+    }
+
+    private class CreateAccountEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            createAccount();
+        }
+    }
+
+    public class MovieEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == view.getMovieScene().getSelectGenreComboBox()) {
+                changeGenre();
+            }
+        }
+    }
+
+
 }
