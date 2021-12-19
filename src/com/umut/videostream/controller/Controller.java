@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Controller {
     private final View view;
@@ -76,7 +77,7 @@ public class Controller {
         final String password = view.getCreateAccountScene().getPasswordValue();
 
         try {
-            User newUser = model.getUserRepository().add(new User(username, password, name, surname, email));
+            User newUser = model.getUserRepository().add(new User(username, password, name, surname, email, -1));
             model.getUserRepository().add(newUser);
             view.getCreateAccountScene().setVisible(false);
             view.getInitialScene().setVisible(true);
@@ -114,7 +115,7 @@ public class Controller {
             int id = Integer.parseInt(view.getAdminScene().getUserNameTextField().getText());
             try {
                 user = model.getUserRepository().getUserById(id);
-                // TODO View
+                view.getAdminScene().renderTable(new Object[][]{user.getData()}, User.getDataColumns());
                 System.out.println(user);
             } catch (UserNotFoundException | SubscriptionTypeNotFound e) {
                 JOptionPane.showInputDialog(e.getMessage());
@@ -133,9 +134,14 @@ public class Controller {
 
             try {
                 users = model.getUserRepository().getAllUsersBySubscriptionType(subscriptionType);
-                for (var user : users) {
-                    System.out.println(user);
+                Object[][] data = new Object[users.length][];
+
+                for (int i =0; i < users.length; i++) {
+                    System.out.println(Arrays.toString(users[i].getData()));
+                    data[i] = users[i].getData();
                 }
+
+                view.getAdminScene().renderTable(data, User.getDataColumns());
             } catch (IOException e) {
                 serverConnectionError(1, e.getMessage(), view.getAdminScene());
             } catch (SubscriptionTypeNotFound e) {

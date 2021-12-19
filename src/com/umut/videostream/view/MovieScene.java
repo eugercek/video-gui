@@ -156,7 +156,6 @@ public class MovieScene extends JFrame implements IFreezable {
 
     public void deleteMovies() {
         center.removeAll();
-        ;
     }
 
 }

@@ -13,7 +13,9 @@ public class UserFactory {
                 oldUser.getPassword(),
                 oldUser.getName(),
                 oldUser.getSurname(),
-                oldUser.getEmail());
+                oldUser.getEmail(),
+                oldUser.getId()
+        );
 
         user.setSubscriptionType(ESubscriptionType.createSubscriptionTypeFromString(oldUser.getSubscriptionType()));
 

@@ -10,6 +10,7 @@ public class User {
     private String password;
     private String email;
     private ESubscriptionType subscriptionType;
+    int id;
 
     public User(String username){
         this.username = username;
@@ -17,13 +18,15 @@ public class User {
         this.name = "noname";
         this.surname = "nosurname";
         this.email = "noemail";
+        this.id = -1;
     }
-    public User(String username, String password, String name, String surname, String email){
+    public User(String username, String password, String name, String surname, String email, int id){
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.id = id;
     }
 
     public String getName() {
@@ -82,7 +85,28 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", accountType='" + subscriptionType + '\'' +
+                ", subscriptionType=" + subscriptionType +
                 '}';
+    }
+
+    public String[] getData(){
+        return new String[]{
+                String.valueOf(id),
+                name,
+                username,
+                password,
+                email,
+                subscriptionType.toString(),
+        };
+    }
+    public static  String[] getDataColumns(){
+        return new String[]{
+                "Id",
+                "Name",
+                "Username",
+                "Password",
+                "Email",
+                "Subscription"
+        };
     }
 }

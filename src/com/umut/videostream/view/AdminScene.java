@@ -11,6 +11,9 @@ public class AdminScene extends JFrame implements IFreezable {
     private final JComboBox<String> subscriptionTypeComboBox;
     private final JButton submitButton;
     private final Container container;
+    private JPanel panel;
+    private JTable table;
+    private JScrollPane scrollPane;
 
     public AdminScene() {
         typeComboBox = new JComboBox(new String[]{"User ID", "Subscription Type"});
@@ -22,6 +25,9 @@ public class AdminScene extends JFrame implements IFreezable {
                 ESubscriptionType.VIP.name()});
 
         submitButton = new JButton("Generate report");
+        panel = new JPanel(new FlowLayout());
+        panel.setPreferredSize(new Dimension(500,500));
+        panel.setBorder(null);
 
         container = getContentPane();
 
@@ -29,8 +35,10 @@ public class AdminScene extends JFrame implements IFreezable {
         container.add(userNameTextField);
 
         subscriptionTypeComboBox.setVisible(false);
+
         container.add(subscriptionTypeComboBox);
         container.add(submitButton);
+        container.add(panel);
 
         container.setLayout(new FlowLayout());
 
@@ -69,5 +77,15 @@ public class AdminScene extends JFrame implements IFreezable {
         return typeComboBox;
     }
 
+    public void renderTable(Object[][] data ,String[] columnNames){
+        System.out.println("hi");
+        panel.removeAll();
+
+        table = new JTable(data,columnNames);
+        scrollPane = new JScrollPane(table);
+
+        panel.add(scrollPane);
+        panel.validate();
+    }
 
 }
