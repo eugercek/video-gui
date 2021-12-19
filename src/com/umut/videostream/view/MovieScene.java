@@ -5,11 +5,12 @@ import com.umut.videostream.model.enums.EMovieGenre;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.util.EnumMap;
 
 public class MovieScene extends JFrame implements IFreezable {
-    private  Container container;
+    private Container container;
     private JPanel top;
     private JPanel left;
     private JPanel center;
@@ -42,7 +43,8 @@ public class MovieScene extends JFrame implements IFreezable {
          Which become base of below calculation
 */
     private static EnumMap<EDirection, Double> ratioMap = new EnumMap<EDirection, Double>(EDirection.class);
-    static{
+
+    static {
         final double left = 200 / 1920F;
         final double right = 200 / 1920F;
         final double top = 75 / 1080F;
@@ -63,9 +65,11 @@ public class MovieScene extends JFrame implements IFreezable {
 
         top = new JPanel(new FlowLayout());
         left = new JPanel();
-        center = new JPanel(new GridLayout(3,3, 20,20));
+        center = new JPanel(new GridLayout(3, 3, 20, 20));
         right = new JPanel();
         bottom = new JPanel();
+
+        selectGenreComboBox = new JComboBox<EMovieGenre>();
 
         top.setPreferredSize(new Dimension(100, getAppropriateHeightPixel(EDirection.TOP)));
         left.setPreferredSize(new Dimension(getAppropriateWidthPixel(EDirection.LEFT), 100));
@@ -82,7 +86,8 @@ public class MovieScene extends JFrame implements IFreezable {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        addWindowListener(new WindowAdapter(){ });
+        addWindowListener(new WindowAdapter() {
+        });
     }
 
     @Override
@@ -95,46 +100,63 @@ public class MovieScene extends JFrame implements IFreezable {
 
     }
 
-    public void renderMovie(String name, Image image){
+    public void renderMovie(String name, Image image) {
         JLabel label = new JLabel(new ImageIcon(image));
         center.add(label);
     }
 
     // TODO
-    private int getWindowWidth(){
+    private int getWindowWidth() {
         return 1000; // getBounds().width;
     }
 
     // TODO
-    private int getWindowHeight(){
+    private int getWindowHeight() {
         return 800; // getBounds().height;
     }
 
-    private int getAppropriateWidthPixel(EDirection direction ){
-        if(direction == EDirection.TOP ||  direction == EDirection.BOTTOM){
+    private int getAppropriateWidthPixel(EDirection direction) {
+        if (direction == EDirection.TOP || direction == EDirection.BOTTOM) {
             // TODO Actually this Error should be a warning etc
             throw new Error("Wrong ratio usage");
         }
-        return (int)(ratioMap.get(direction).doubleValue() * getWindowWidth());
+        return (int) (ratioMap.get(direction).doubleValue() * getWindowWidth());
     }
 
-    private int getAppropriateHeightPixel(EDirection direction ){
-        if(direction == EDirection.LEFT ||  direction == EDirection.RIGHT){
+    private int getAppropriateHeightPixel(EDirection direction) {
+        if (direction == EDirection.LEFT || direction == EDirection.RIGHT) {
             // TODO Actually this Error should be a warning etc
             throw new Error("Wrong ratio usage");
         }
-        return (int)(ratioMap.get(direction).doubleValue() * getWindowHeight());
+        return (int) (ratioMap.get(direction).doubleValue() * getWindowHeight());
     }
 
-    public void renderComboBox(EMovieGenre[] genres, EMovieGenre initialGenre){
-        selectGenreComboBox = new JComboBox<>(genres);
+    /*
+    Combobox trigger itself while adding items so temporarily closing its event handler is a solution
+     */
+    public void renderComboBox(EMovieGenre[] genres, EMovieGenre initialGenre, ActionListener listener) {
+        selectGenreComboBox.removeActionListener(listener);
+        selectGenreComboBox.removeAllItems();
+        ;
+
+        for (EMovieGenre genre : genres) {
+            selectGenreComboBox.addItem(genre);
+        }
+
         selectGenreComboBox.setSelectedItem(initialGenre);
 
         top.add(selectGenreComboBox);
+
+        selectGenreComboBox.addActionListener(listener);
     }
 
     public JComboBox<EMovieGenre> getSelectGenreComboBox() {
         return selectGenreComboBox;
+    }
+
+    public void deleteMovies() {
+        center.removeAll();
+        ;
     }
 
 }

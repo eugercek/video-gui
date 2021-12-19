@@ -94,8 +94,10 @@ public class Controller {
 
     public void changeGenre() {
         view.getMovieScene().deleteMovies();
+
         EMovieGenre genre = (EMovieGenre) view.getMovieScene().getSelectGenreComboBox().getSelectedItem();
         System.out.println("Change: " + view.getMovieScene().getSelectGenreComboBox().getSelectedItem());
+
         loadMovies(genre);
     }
 
@@ -110,7 +112,8 @@ public class Controller {
 
         System.out.println(randomGenre);
 
-        view.getMovieScene().renderComboBox(userGenres, randomGenre);
+        view.getMovieScene().renderComboBox(userGenres, randomGenre, movieEventHandler);
+
         loadMovies(randomGenre);
     }
 
