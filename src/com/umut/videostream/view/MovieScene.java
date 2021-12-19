@@ -11,15 +11,6 @@ import java.awt.event.WindowAdapter;
 import java.util.EnumMap;
 
 public class MovieScene extends JFrame implements IFreezable {
-    private Container container;
-    private JPanel top;
-    private JPanel left;
-    private JPanel center;
-    private JPanel right;
-    private JPanel bottom;
-
-    private JComboBox<EMovieGenre> selectGenreComboBox;
-
     // Calculated  wanted look with reponse size my secreen
         /*
         +---------------------------------------------------------------------+
@@ -43,7 +34,7 @@ public class MovieScene extends JFrame implements IFreezable {
                     1920 px
          Which become base of below calculation
 */
-    private static EnumMap<EDirection, Double> ratioMap = new EnumMap<EDirection, Double>(EDirection.class);
+    private static final EnumMap<EDirection, Double> ratioMap = new EnumMap<EDirection, Double>(EDirection.class);
 
     static {
         final double left = 200 / 1920F;
@@ -56,6 +47,14 @@ public class MovieScene extends JFrame implements IFreezable {
         ratioMap.put(EDirection.RIGHT, right);
         ratioMap.put(EDirection.BOTTOM, bottom);
     }
+
+    private final Container container;
+    private final JPanel top;
+    private final JPanel left;
+    private final JPanel center;
+    private final JPanel right;
+    private final JPanel bottom;
+    private final JComboBox<EMovieGenre> selectGenreComboBox;
 
     public MovieScene() {
         // TODO
@@ -140,7 +139,6 @@ public class MovieScene extends JFrame implements IFreezable {
     public void renderComboBox(EMovieGenre[] genres, EMovieGenre initialGenre, ActionListener listener) {
         selectGenreComboBox.removeActionListener(listener);
         selectGenreComboBox.removeAllItems();
-        ;
 
         for (EMovieGenre genre : genres) {
             selectGenreComboBox.addItem(genre);

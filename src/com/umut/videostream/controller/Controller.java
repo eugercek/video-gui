@@ -31,8 +31,8 @@ public class Controller {
     private final LoginEventHandler loginEventHandler;
     private final CreateAccountEventHandler createAccountEventHandler;
     private final InitialSceneEventHandler initialSceneEventHandler;
-    private final  WatchEventHandler watchEventHandler;
-    private final  MovieMouseAdapter movieMouseAdapter;
+    private final WatchEventHandler watchEventHandler;
+    private final MovieMouseAdapter movieMouseAdapter;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -164,9 +164,9 @@ public class Controller {
 
         String message;
 
-        switch (quality){
+        switch (quality) {
             case Q_2K -> message = "Watching movie in 2K :)";
-            case Q_720p-> message = "Watching movie in 720p";
+            case Q_720p -> message = "Watching movie in 720p";
             default -> message = WatchScene.FIRST_MESSAGE;
         }
 
@@ -286,7 +286,7 @@ public class Controller {
                 });
     }
 
-    private void bindWatchSceneHandlers(){
+    private void bindWatchSceneHandlers() {
         view.getWatchScene()
                 .getQualityComboBox()
                 .addActionListener(watchEventHandler);
@@ -344,11 +344,15 @@ public class Controller {
         loadInitialAdminState();
     }
 
-    private void switchToWatchScene(){
+    private void switchToWatchScene() {
         view.getMovieScene().setVisible(false);
         view.getWatchScene().setVisible(true);
 
         loadInitialWatchState();
+    }
+
+    private boolean isUserAdmin(User user) {
+        return user.getUsername().equals("admin");
     }
 
     /*
@@ -378,14 +382,12 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             var scene = view.getCreateAccountScene();
-            if(e.getSource() == scene.getSubmitButton()){
+            if (e.getSource() == scene.getSubmitButton()) {
                 createAccount();
-            }
-            else if(e.getSource() == scene.getComboBox()){
-                if(scene.getComboBox().getSelectedItem() != ESubscriptionType.FREE){
+            } else if (e.getSource() == scene.getComboBox()) {
+                if (scene.getComboBox().getSelectedItem() != ESubscriptionType.FREE) {
                     scene.activateCreditCardSection();
-                }
-                else{
+                } else {
                     scene.deActivateCreditCardSection();
                 }
             }
@@ -401,17 +403,10 @@ public class Controller {
         }
     }
 
-    public class MovieMouseAdapter extends MouseAdapter{
+    public class MovieMouseAdapter extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             switchToWatchScene();
-        }
-    }
-
-    public class WatchEventHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            changeQuality();
         }
     }
 
@@ -419,8 +414,11 @@ public class Controller {
     Util
      */
 
-    private boolean isUserAdmin(User user) {
-        return user.getUsername().equals("admin");
+    public class WatchEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            changeQuality();
+        }
     }
 
 }

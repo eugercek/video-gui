@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 public class UserJsonServerRepository implements IUserRepository {
-    private static String BASE_URL = "http://localhost:3000/users";
+    private static final String BASE_URL = "http://localhost:3000/users";
     Gson gson;
 
     public UserJsonServerRepository() {
@@ -21,7 +21,7 @@ public class UserJsonServerRepository implements IUserRepository {
     }
 
     @Override
-    public User getUserByUsername(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
+    public User getUserByUsername(User user) throws IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
 
         MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
@@ -32,7 +32,7 @@ public class UserJsonServerRepository implements IUserRepository {
 
 
     @Override
-    public User getUserById(int id) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
+    public User getUserById(int id) throws IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLById(id));
 
         MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
@@ -48,8 +48,8 @@ public class UserJsonServerRepository implements IUserRepository {
         MockAPIUserModel[] responseUsers = gson.fromJson(json, MockAPIUserModel[].class);
         User[] realUsers = new User[responseUsers.length];
 
-        for(int i = 0 ; i < responseUsers.length; i++){
-            realUsers[i]  = UserFactory.createUserFromMockAPIModel(responseUsers[i]);
+        for (int i = 0; i < responseUsers.length; i++) {
+            realUsers[i] = UserFactory.createUserFromMockAPIModel(responseUsers[i]);
         }
 
         return realUsers;

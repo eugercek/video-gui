@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class MovieGenreNotFound extends IOException {
     public MovieGenreNotFound(String string) {
-        super("Genre " + string  + " not found");
+        super("Genre " + string + " not found");
     }
 
 }

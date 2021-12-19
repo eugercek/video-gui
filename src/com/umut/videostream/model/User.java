@@ -1,18 +1,17 @@
 package com.umut.videostream.model;
 
-import com.umut.videostream.model.enums.EMovieGenre;
 import com.umut.videostream.model.enums.ESubscriptionType;
 
 public class User {
+    int id;
     private String name;
     private String surname;
     private String username;
     private String password;
     private String email;
     private ESubscriptionType subscriptionType;
-    int id;
 
-    public User(String username){
+    public User(String username) {
         this.username = username;
         this.password = "default";
         this.name = "noname";
@@ -20,13 +19,25 @@ public class User {
         this.email = "noemail";
         this.id = -1;
     }
-    public User(String username, String password, String name, String surname, String email, int id){
+
+    public User(String username, String password, String name, String surname, String email, int id) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.id = id;
+    }
+
+    public static String[] getDataColumns() {
+        return new String[]{
+                "Id",
+                "Name",
+                "Username",
+                "Password",
+                "Email",
+                "Subscription"
+        };
     }
 
     public String getName() {
@@ -89,7 +100,7 @@ public class User {
                 '}';
     }
 
-    public String[] getData(){
+    public String[] getData() {
         return new String[]{
                 String.valueOf(id),
                 name,
@@ -97,16 +108,6 @@ public class User {
                 password,
                 email,
                 subscriptionType.toString(),
-        };
-    }
-    public static  String[] getDataColumns(){
-        return new String[]{
-                "Id",
-                "Name",
-                "Username",
-                "Password",
-                "Email",
-                "Subscription"
         };
     }
 }

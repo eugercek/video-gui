@@ -8,5 +8,6 @@ import java.io.IOException;
 
 public interface IMovieRepository {
     Movie[] getMoviesByGenre(EMovieGenre genre) throws IOException;
+
     Movie[] getMoviesBySubscriptionType(ESubscriptionType subscriptionType);
 }

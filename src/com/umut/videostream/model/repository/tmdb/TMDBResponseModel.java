@@ -6,6 +6,14 @@ import java.util.Arrays;
 
 // Class for Gson
 public class TMDBResponseModel {
+    private int page;
+    @SerializedName("results")
+    private TMDBMovieModel[] movies;
+    @SerializedName("total_pages")
+    private int totalPages;
+    @SerializedName("total_results")
+    private int totalResults;
+
     public int getPage() {
         return page;
     }
@@ -21,14 +29,6 @@ public class TMDBResponseModel {
     public int getTotalResults() {
         return totalResults;
     }
-
-    private int page;
-    @SerializedName("results")
-    private TMDBMovieModel[] movies;
-    @SerializedName("total_pages")
-    private int totalPages;
-    @SerializedName("total_results")
-    private int totalResults;
 
     @Override
     public String toString() {

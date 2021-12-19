@@ -1,5 +1,11 @@
 package com.umut.videostream.model.services;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
@@ -9,14 +15,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-
 public class NetworkOperations {
-    public static String downloadJsonString(String urlString) throws MalformedURLException, IOException {
+    public static String downloadJsonString(String urlString) throws IOException {
         URL url = new URL(urlString);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -49,7 +49,7 @@ public class NetworkOperations {
     }
 
     @Deprecated
-    public static void postJsonString(String urlString, String jsonString) throws MalformedURLException, IOException {
+    public static void postJsonString(String urlString, String jsonString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -89,7 +89,7 @@ public class NetworkOperations {
         }
         post.setEntity(postingString);
         post.setHeader("Content-type", "application/json");
-        HttpResponse  response = httpClient.execute(post);
+        HttpResponse response = httpClient.execute(post);
 
     }
 

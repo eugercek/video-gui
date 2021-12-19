@@ -6,17 +6,9 @@ import java.awt.event.ActionListener;
 
 // Scenes are only reachable by a View instance
 public class InitialScene extends JFrame implements IFreezable {
-    private JButton createAccountButton;
-    private JButton logInButton;
-    private Container container;
-
-    public JButton getCreateAccountButton() {
-        return createAccountButton;
-    }
-
-    public JButton getLogInButton() {
-        return logInButton;
-    }
+    private final JButton createAccountButton;
+    private final JButton logInButton;
+    private final Container container;
 
     public InitialScene() {
         createAccountButton = new JButton("Create Account");
@@ -35,6 +27,14 @@ public class InitialScene extends JFrame implements IFreezable {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public JButton getCreateAccountButton() {
+        return createAccountButton;
+    }
+
+    public JButton getLogInButton() {
+        return logInButton;
     }
 
     public void addCreatAccountListener(ActionListener listener) {

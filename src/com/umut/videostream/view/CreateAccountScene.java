@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class CreateAccountScene extends JFrame implements IFreezable{
+public class CreateAccountScene extends JFrame implements IFreezable {
     private final JTextField nameTextField;
     private final JTextField surnameTextField;
     private final JTextField emailTextField;
@@ -25,9 +25,9 @@ public class CreateAccountScene extends JFrame implements IFreezable{
     private final JFrame caller;
     private final JButton submitButton;
 
-    private JComboBox<ESubscriptionType> comboBox;
+    private final JComboBox<ESubscriptionType> comboBox;
 
-    public CreateAccountScene(JFrame caller, ESubscriptionType[] types){
+    public CreateAccountScene(JFrame caller, ESubscriptionType[] types) {
         this.caller = caller;
         nameLabel = new JLabel("Username");
         nameTextField = new JTextField(20);
@@ -54,7 +54,7 @@ public class CreateAccountScene extends JFrame implements IFreezable{
         creditCardPasswordLabel.setVisible(false);
         creditCardPassworTexfField.setVisible(false);
 
-        for(var type: types){
+        for (var type : types) {
             comboBox.addItem(type);
         }
 
@@ -81,42 +81,42 @@ public class CreateAccountScene extends JFrame implements IFreezable{
         JPanel div = new JPanel();
         div.add(comboBox);
         div.add(submitButton);
-        div.setBorder(new EmptyBorder(10,0,0,0));
+        div.setBorder(new EmptyBorder(10, 0, 0, 0));
 
         panel.add(div);
 
         getContentPane().add(panel);
 
-        setSize(250,500);
+        setSize(250, 500);
         setTitle("Create account");
         setResizable(true);
         setLocationRelativeTo(null);
 
 
-        addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent e){
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
                 caller.setVisible(true);
             }
         });
     }
 
-    public String getNameValue(){
+    public String getNameValue() {
         return nameTextField.getText();
     }
 
-    public String getSurnameValue(){
+    public String getSurnameValue() {
         return surnameTextField.getText();
     }
 
-    public String getEmailValue(){
+    public String getEmailValue() {
         return emailTextField.getText();
     }
 
-    public String getUsernameValue(){
+    public String getUsernameValue() {
         return usernameTextField.getText();
     }
 
-    public String getPasswordValue(){
+    public String getPasswordValue() {
         return String.valueOf(passwordTextField.getPassword());
     }
 
@@ -150,6 +150,7 @@ public class CreateAccountScene extends JFrame implements IFreezable{
         creditCardPasswordLabel.setVisible(true);
         creditCardPassworTexfField.setVisible(true);
     }
+
     public void deActivateCreditCardSection() {
         creditCardPasswordLabel.setVisible(false);
         creditCardPassworTexfField.setVisible(false);

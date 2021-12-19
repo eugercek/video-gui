@@ -9,15 +9,19 @@ import com.umut.videostream.model.services.NetworkOperations;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 public class MovieTMDBRepository implements IMovieRepository {
-    private static final String API_KEY  = "c787ec79f5645b11b37480a74e0cc95b";
-    private static final String IMG_BASE_URL  = "https://image.tmdb.org/t/p/";
+    private static final String API_KEY = "c787ec79f5645b11b37480a74e0cc95b";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/";
     private final Gson gson;
 
-    public MovieTMDBRepository(){
+    public MovieTMDBRepository() {
         gson = new Gson();
+    }
+
+    // https://image.tmdb.org/t/p/w500/7ajHGIAYNMiIzejy1LJWdPrcAx8.jpg
+    public static String getPosterURL(int width, String posterPath) {
+        return MessageFormat.format("{0}w{1}/{2}", IMG_BASE_URL, width, posterPath);
     }
 
     @Override
@@ -27,7 +31,7 @@ public class MovieTMDBRepository implements IMovieRepository {
         // TODO find map syntax
 
         Movie[] movies = new Movie[tmdbMovieModels.length];
-        for(int i =0; i < tmdbMovieModels.length; i++){
+        for (int i = 0; i < tmdbMovieModels.length; i++) {
             movies[i] = MovieFactory.creatMovieFromTMDBMovieModel(tmdbMovieModels[i]);
         }
 
@@ -39,13 +43,8 @@ public class MovieTMDBRepository implements IMovieRepository {
         return new Movie[0];
     }
 
-    // https://image.tmdb.org/t/p/w500/7ajHGIAYNMiIzejy1LJWdPrcAx8.jpg
-    public static String getPosterURL(int width, String posterPath){
-        return MessageFormat.format("{0}w{1}/{2}",IMG_BASE_URL ,width, posterPath);
-    }
-
     // http://api.themoviedb.org/3/discover/movie?api_key={{key}}&with_genres=35
-    private String getGenreUrl(EMovieGenre genre){
+    private String getGenreUrl(EMovieGenre genre) {
         return MessageFormat.format("https://api.themoviedb.org/3/discover/movie?api_key={0}&with_genres={1}",
                 API_KEY,
                 getGenreId(genre));
@@ -55,8 +54,8 @@ public class MovieTMDBRepository implements IMovieRepository {
     // Problem of baking is can't extend enum, also can't hard code values in enum for obvious reasons
     // Implementation of API's id values
     // https://api.themoviedb.org/3/genre/movie/list?api_key={{key}}
-    private int getGenreId(EMovieGenre genre){
-        return switch (genre){
+    private int getGenreId(EMovieGenre genre) {
+        return switch (genre) {
             case ACTION -> 28;
             case COMEDY -> 35;
             case DRAMA -> 18;
@@ -65,9 +64,10 @@ public class MovieTMDBRepository implements IMovieRepository {
             case MUSIC -> 10402;
         };
     }
-    private EMovieGenre getGenreById(int id){
-        return switch (id){
-            case 28 -> EMovieGenre.ACTION ;
+
+    private EMovieGenre getGenreById(int id) {
+        return switch (id) {
+            case 28 -> EMovieGenre.ACTION;
             case 35 -> EMovieGenre.COMEDY;
             case 18 -> EMovieGenre.DRAMA;
             case 36 -> EMovieGenre.HISTORY;

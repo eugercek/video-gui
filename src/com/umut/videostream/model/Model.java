@@ -7,16 +7,16 @@ import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 
 public class Model {
     // Waits for dependency injection :)
-    private IUserRepository userRepository;
-    private IMovieRepository movieRepository;
+    private final IUserRepository userRepository;
+    private final IMovieRepository movieRepository;
     private User activeUser;
 
-    public Model(String connectionString){
+    public Model(String connectionString) {
         userRepository = new UserJsonServerRepository();
         movieRepository = new MovieTMDBRepository();
     }
 
-    public void logIn(String username, String password){
+    public void logIn(String username, String password) {
 
     }
 

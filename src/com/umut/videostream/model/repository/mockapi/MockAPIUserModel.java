@@ -1,8 +1,6 @@
 package com.umut.videostream.model.repository.mockapi;
 
-import com.umut.videostream.model.User;
-
-public class MockAPIUserModel{
+public class MockAPIUserModel {
     private String name;
     private String surname;
     private String username;
