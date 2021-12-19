@@ -15,14 +15,15 @@ public class UserJsonServerRepository implements IUserRepository {
     private static String BASE_URL = "http://localhost:3000/users/";
     Gson gson;
 
-    public UserJsonServerRepository(){
+    public UserJsonServerRepository() {
         gson = new Gson();
     }
 
     @Override
     public User getUserByUsername(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
-        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
+
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel.class);
         User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         return realUser;
@@ -33,14 +34,17 @@ public class UserJsonServerRepository implements IUserRepository {
     public User getUserById(int id) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLById(id));
 
-        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel.class);
         User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         return realUser;
     }
+
     @Override
     public User add(User user) throws IOException {
-        return null;
+        String json = gson.toJson(user, User.class);
+        NetworkOperations.postJson(getAddUserURLByUsername(user.getUsername()), json);
+        return user;
     }
 
     @Override
@@ -53,6 +57,10 @@ public class UserJsonServerRepository implements IUserRepository {
     }
 
     private String getUserURLByUsername(String username) {
+        return MessageFormat.format("{0}?username={1}", BASE_URL, username);
+    }
+
+    private String getAddUserURLByUsername(String username) {
         return MessageFormat.format("{0}?username={1}", BASE_URL, username);
     }
 

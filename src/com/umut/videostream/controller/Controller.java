@@ -75,8 +75,11 @@ public class Controller {
 
         try {
             User newUser = model.getUserRepository().add(new User(username, password, name, surname, email));
-            System.out.println(newUser);
+            model.getUserRepository().add(newUser);
+            view.getCreateAccountScene().setVisible(false);
+            view.getInitialScene().setVisible(true);
         } catch (IOException e) {
+            serverConnectionError(1, e.getMessage(), view.getCreateAccountScene());
             e.printStackTrace();
         }
     }
