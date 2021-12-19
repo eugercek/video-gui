@@ -23,7 +23,7 @@ public class UserJsonServerRepository implements IUserRepository {
     public User getUserByUsername(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
 
-        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel.class);
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
         User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         return realUser;
@@ -34,7 +34,7 @@ public class UserJsonServerRepository implements IUserRepository {
     public User getUserById(int id) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLById(id));
 
-        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel.class);
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
         User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         return realUser;
