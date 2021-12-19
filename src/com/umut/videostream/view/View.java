@@ -1,11 +1,11 @@
 package com.umut.videostream.view;
 
 public class View {
-    private InitialScene initialScene;
-    private CreateAccountScene createAccountScene;
-    private LoginScene loginScene;
-    private AdminScene adminScene;
-    private MovieScene videoScene;
+    private final InitialScene initialScene;
+    private final CreateAccountScene createAccountScene;
+    private final LoginScene loginScene;
+    private final AdminScene adminScene;
+    private final MovieScene videoScene;
 
     public View() {
         initialScene = new InitialScene();

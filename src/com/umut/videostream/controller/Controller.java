@@ -3,15 +3,12 @@ package com.umut.videostream.controller;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.enums.EMovieGenre;
-import com.umut.videostream.model.exceptions.MovieGenreNotFound;
+import com.umut.videostream.model.enums.ESubscriptionType;
 import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 import com.umut.videostream.model.services.NetworkOperations;
-import com.umut.videostream.view.CreateAccountScene;
-import com.umut.videostream.view.IFreezable;
-import com.umut.videostream.view.InitialScene;
-import com.umut.videostream.view.View;
+import com.umut.videostream.view.*;
 import com.umut.videostream.model.Model;
 
 import javax.swing.*;
@@ -21,13 +18,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class Controller {
-    private View view;
-    private Model model;
+    private final View view;
+    private final Model model;
 
-    private MovieEventHandler movieEventHandler;
-    private LoginEventHandler loginEventHandler;
-    private CreateAccountEventHandler createAccountEventHandler;
-    private InitialSceneEventHandler initialSceneEventHandler;
+    private final MovieEventHandler movieEventHandler;
+    private final LoginEventHandler loginEventHandler;
+    private final CreateAccountEventHandler createAccountEventHandler;
+    private final InitialSceneEventHandler initialSceneEventHandler;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -52,9 +49,14 @@ public class Controller {
         final String password = view.getLoginScene().getPasswordValue();
 
         try {
-            User user = model.getUserRepository().get(new User(username));
+            User user = model.getUserRepository().getUserByUsername(new User(username));
             model.setActiveUser(user);
-            switchToVideoScene();
+
+            if (isUserAdmin(user)) {
+                switchToAdminScene();
+            } else {
+                switchToVideoScene();
+            }
 
         } catch (UserNotFoundException e) {
             wrongLoginRequest();
@@ -99,6 +101,26 @@ public class Controller {
         System.out.println("Change: " + view.getMovieScene().getSelectGenreComboBox().getSelectedItem());
 
         loadMovies(genre);
+    }
+
+    private void generateReport() {
+        boolean isIdMode = view.getAdminScene().isIdMode();
+        User user;
+        if (isIdMode) {
+            int id = Integer.parseInt(view.getAdminScene().getUserNameTextField().getText());
+            try {
+                user = model.getUserRepository().getUserById(id);
+                // TODO View
+                System.out.println(user);
+            } catch (IOException e) {
+                serverConnectionError(1, e.getMessage(), view.getAdminScene());
+            } catch (SubscriptionTypeNotFound e) {
+                JOptionPane.showInputDialog(e.getMessage());
+            }
+        } else {
+            ESubscriptionType subscriptionType = (ESubscriptionType) view.getAdminScene().getSubscriptionTypeComboBox().getSelectedItem();
+            // TODO Model and View
+        }
     }
 
 
@@ -154,12 +176,23 @@ public class Controller {
                 .addActionListener(createAccountEventHandler);
 
     }
+
     private void bindMovieSceneHandlers() {
         view.getMovieScene()
                 .getSelectGenreComboBox()
                 .addActionListener(movieEventHandler);
     }
 
+    private void bindAdminSceneHandlers() {
+        view.getAdminScene()
+                .getSubmitButton()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        generateReport();
+                    }
+                });
+    }
 
     /*
     Error related
@@ -203,8 +236,12 @@ public class Controller {
         view.getLoginScene().setVisible(false);
         view.getMovieScene().setVisible(true);
 
-
         loadInitialMovieState();
+    }
+
+    private void switchToAdminScene() {
+        view.getLoginScene().setVisible(false);
+        view.getAdminScene().setVisible(true);
     }
 
 
@@ -246,6 +283,14 @@ public class Controller {
                 changeGenre();
             }
         }
+    }
+
+    /*
+    Util
+     */
+
+    private boolean isUserAdmin(User user) {
+        return user.getUsername().equals("admin");
     }
 
 

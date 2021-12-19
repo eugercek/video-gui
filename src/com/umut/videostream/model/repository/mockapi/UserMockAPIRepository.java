@@ -21,13 +21,27 @@ public class UserMockAPIRepository implements IUserRepository {
         gson = new Gson();
     }
     @Override
-    public User get(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
+    public User getUserByUsername(User user) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
         String json = NetworkOperations.downloadJsonString(getUserURLByUsername(user.getUsername()));
         MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
         User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
 
         // mockapi returns a user if there is no wanted user in db
         if(responseUser.getUsername().equals(user.getUsername())){
+            return realUser;
+        }
+        throw new UserNotFoundException(realUser);
+    }
+
+    @Override
+    public User getUserById(int id) throws UserNotFoundException, IOException, SubscriptionTypeNotFound {
+        String json = NetworkOperations.downloadJsonString(getUserURLById(id));
+
+        MockAPIUserModel responseUser = gson.fromJson(json, MockAPIUserModel[].class)[0];
+        User realUser = UserFactory.createUserFromMockAPIModel(responseUser);
+
+        // mockapi returns a user if there is no wanted user in db
+        if(responseUser.getId() == id){
             return realUser;
         }
         throw new UserNotFoundException(realUser);
@@ -49,5 +63,9 @@ public class UserMockAPIRepository implements IUserRepository {
 
     public String getUserURLByUsername(String username){
         return MessageFormat.format("{0}?username={1}", BASE_URL, username);
+    }
+
+    public String getUserURLById(int id){
+        return MessageFormat.format("{0}?id={1}", BASE_URL, id);
     }
 }
