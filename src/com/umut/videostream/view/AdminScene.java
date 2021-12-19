@@ -26,7 +26,7 @@ public class AdminScene extends JFrame implements IFreezable {
 
         submitButton = new JButton("Generate report");
         panel = new JPanel(new FlowLayout());
-        panel.setPreferredSize(new Dimension(500, 500));
+        panel.setPreferredSize(new Dimension(1000, 500));
         panel.setBorder(null);
 
         container = getContentPane();
@@ -42,7 +42,7 @@ public class AdminScene extends JFrame implements IFreezable {
 
         container.setLayout(new FlowLayout());
 
-        setSize(600, 800);
+        setSize(1200, 700);
         setTitle("Admin panel");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -83,7 +83,10 @@ public class AdminScene extends JFrame implements IFreezable {
         panel.removeAll();
 
         table = new JTable(data, columnNames);
+        table.setSize(1000, 800);
+        table.setPreferredSize(new Dimension(1000, 800));
         scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1000, 800));
 
         panel.add(scrollPane);
         panel.validate();
