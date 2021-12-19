@@ -1,5 +1,7 @@
 package com.umut.videostream.view;
 
+import com.umut.videostream.model.enums.ESubscriptionType;
+
 public class View {
     private final InitialScene initialScene;
     private final CreateAccountScene createAccountScene;
@@ -11,7 +13,7 @@ public class View {
 
     public View() {
         initialScene = new InitialScene();
-        createAccountScene = new CreateAccountScene(initialScene);
+        createAccountScene = new CreateAccountScene(initialScene, ESubscriptionType.values());
         loginScene = new LoginScene(initialScene);
         adminScene = new AdminScene();
         movieScene = new MovieScene();

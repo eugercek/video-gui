@@ -82,9 +82,11 @@ public class Controller {
         final String email = view.getCreateAccountScene().getEmailValue();
         final String username = view.getCreateAccountScene().getUsernameValue();
         final String password = view.getCreateAccountScene().getPasswordValue();
+        final ESubscriptionType type = (ESubscriptionType) view.getCreateAccountScene().getComboBox().getSelectedItem();
 
         try {
             User newUser = model.getUserRepository().add(new User(username, password, name, surname, email, -1));
+            newUser.setSubscriptionType(type);
             model.getUserRepository().add(newUser);
             view.getCreateAccountScene().setVisible(false);
             view.getInitialScene().setVisible(true);
@@ -243,6 +245,10 @@ public class Controller {
                 .getSubmitButton()
                 .addActionListener(createAccountEventHandler);
 
+        view.getCreateAccountScene()
+                .getComboBox()
+                .addActionListener(createAccountEventHandler);
+
     }
 
     private void bindMovieSceneHandlers() {
@@ -371,7 +377,18 @@ public class Controller {
     private class CreateAccountEventHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            createAccount();
+            var scene = view.getCreateAccountScene();
+            if(e.getSource() == scene.getSubmitButton()){
+                createAccount();
+            }
+            else if(e.getSource() == scene.getComboBox()){
+                if(scene.getComboBox().getSelectedItem() != ESubscriptionType.FREE){
+                    scene.activateCreditCardSection();
+                }
+                else{
+                    scene.deActivateCreditCardSection();
+                }
+            }
         }
     }
 
