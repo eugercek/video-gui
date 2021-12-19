@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.io.IOException;
 
 public class Controller {
@@ -38,6 +39,7 @@ public class Controller {
         bindEventHandlers();
 
         view.createInitialWindow();
+
     }
 
     /*
@@ -107,22 +109,38 @@ public class Controller {
     }
 
     private void generateReport() {
-        boolean isIdMode = view.getAdminScene().isIdMode();
-        User user;
-        if (isIdMode) {
+        if (view.getAdminScene().isIdMode()) {
+            User user;
             int id = Integer.parseInt(view.getAdminScene().getUserNameTextField().getText());
             try {
                 user = model.getUserRepository().getUserById(id);
                 // TODO View
                 System.out.println(user);
+            } catch (UserNotFoundException | SubscriptionTypeNotFound e) {
+                JOptionPane.showInputDialog(e.getMessage());
+            } catch (IOException e) {
+                serverConnectionError(1, e.getMessage(), view.getAdminScene());
+            }
+        } else {
+            ESubscriptionType subscriptionType = null;
+            try {
+                // TODO Fix this ugliness
+                subscriptionType = ESubscriptionType.createSubscriptionTypeFromString(view.getAdminScene().getSubscriptionTypeComboBox().getSelectedItem().toString());
+            } catch (SubscriptionTypeNotFound e) {
+                e.printStackTrace();
+            }
+            User[] users;
+
+            try {
+                users = model.getUserRepository().getAllUsersBySubscriptionType(subscriptionType);
+                for (var user : users) {
+                    System.out.println(user);
+                }
             } catch (IOException e) {
                 serverConnectionError(1, e.getMessage(), view.getAdminScene());
             } catch (SubscriptionTypeNotFound e) {
                 JOptionPane.showInputDialog(e.getMessage());
             }
-        } else {
-            ESubscriptionType subscriptionType = (ESubscriptionType) view.getAdminScene().getSubscriptionTypeComboBox().getSelectedItem();
-            // TODO Model and View
         }
     }
 
@@ -142,11 +160,19 @@ public class Controller {
         loadMovies(randomGenre);
     }
 
+    private void loadInitialAdminState() {
+        var scene = view.getAdminScene();
+
+        // At first Search by user id is usable
+        scene.getSubscriptionTypeComboBox().setVisible(false);
+    }
+
 
     /*
     Event handler binders
      */
 
+    // I would use lambda expressions but assignment instructions dictates below
     private void bindEventHandlers() {
         bindInitialSceneHandlers();
 
@@ -154,6 +180,8 @@ public class Controller {
         bindCreateAccountSceneHandlers();
 
         bindMovieSceneHandlers();
+
+        bindAdminSceneHandlers();
     }
 
 
@@ -187,12 +215,31 @@ public class Controller {
     }
 
     private void bindAdminSceneHandlers() {
-        view.getAdminScene()
-                .getSubmitButton()
+        var adminScene = view.getAdminScene();
+
+        adminScene.getSubmitButton()
                 .addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         generateReport();
+                    }
+                });
+
+
+        var typeComboBox = adminScene.getTypeComboBox();
+
+        typeComboBox
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (typeComboBox.getSelectedItem().toString().equals("User ID")) {
+                            adminScene.getUserNameTextField().setVisible(true);
+                            adminScene.getSubscriptionTypeComboBox().setVisible(false);
+                        } else {
+                            adminScene.getUserNameTextField().setVisible(false);
+                            adminScene.getSubscriptionTypeComboBox().setVisible(true);
+
+                        }
                     }
                 });
     }
@@ -245,6 +292,8 @@ public class Controller {
     private void switchToAdminScene() {
         view.getLoginScene().setVisible(false);
         view.getAdminScene().setVisible(true);
+
+        loadInitialAdminState();
     }
 
 

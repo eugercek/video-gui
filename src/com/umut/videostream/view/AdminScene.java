@@ -1,39 +1,36 @@
 package com.umut.videostream.view;
 
-import com.umut.videostream.model.enums.EMovieGenre;
 import com.umut.videostream.model.enums.ESubscriptionType;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AdminScene extends JFrame implements IFreezable {
-    private final JComboBox comboBox;
+    private final JComboBox typeComboBox;
     private final JTextField userNameTextField;
-    private final JComboBox<ESubscriptionType> subscriptionTypeComboBox;
+    private final JComboBox<String> subscriptionTypeComboBox;
     private final JButton submitButton;
     private final Container container;
-    private  boolean idMode;
 
     public AdminScene() {
-        comboBox = new JComboBox(new String[]{"User ID", "Subscription Type"});
+        typeComboBox = new JComboBox(new String[]{"User ID", "Subscription Type"});
         userNameTextField = new JTextField(20);
 
-        subscriptionTypeComboBox = new JComboBox<ESubscriptionType>(new ESubscriptionType[]{
-                ESubscriptionType.FREE,
-                ESubscriptionType.MEDIUM,
-                ESubscriptionType.VIP});
+        subscriptionTypeComboBox = new JComboBox(new String[]{
+                ESubscriptionType.FREE.name(),
+                ESubscriptionType.MEDIUM.name(),
+                ESubscriptionType.VIP.name()});
 
         submitButton = new JButton("Generate report");
 
         container = getContentPane();
 
-        container.add(comboBox);
+        container.add(typeComboBox);
         container.add(userNameTextField);
-        container.add(subscriptionTypeComboBox);
 
-        // At first Search by user id is usable
         subscriptionTypeComboBox.setVisible(false);
-        idMode = true;
+        container.add(subscriptionTypeComboBox);
+        container.add(submitButton);
 
         container.setLayout(new FlowLayout());
 
@@ -61,11 +58,16 @@ public class AdminScene extends JFrame implements IFreezable {
     }
 
     public boolean isIdMode() {
-        return idMode;
+        return typeComboBox.getSelectedItem().toString().equals("User ID");
     }
 
-    public JComboBox<ESubscriptionType> getSubscriptionTypeComboBox() {
+    public JComboBox<String> getSubscriptionTypeComboBox() {
         return subscriptionTypeComboBox;
     }
+
+    public JComboBox getTypeComboBox() {
+        return typeComboBox;
+    }
+
 
 }

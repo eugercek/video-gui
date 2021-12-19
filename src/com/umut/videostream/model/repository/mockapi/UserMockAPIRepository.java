@@ -2,6 +2,7 @@ package com.umut.videostream.model.repository.mockapi;
 
 import com.google.gson.Gson;
 import com.umut.videostream.model.User;
+import com.umut.videostream.model.enums.ESubscriptionType;
 import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.IUserRepository;
@@ -45,6 +46,12 @@ public class UserMockAPIRepository implements IUserRepository {
             return realUser;
         }
         throw new UserNotFoundException(realUser);
+    }
+
+    @Override
+    // TODO
+    public User[] getAllUsersBySubscriptionType(ESubscriptionType subscriptionType) throws IOException, SubscriptionTypeNotFound {
+        return null;
     }
 
     // There is no way to POST custom JSON in mockapi
