@@ -5,14 +5,17 @@ public class View {
     private final CreateAccountScene createAccountScene;
     private final LoginScene loginScene;
     private final AdminScene adminScene;
-    private final MovieScene videoScene;
+    private final MovieScene movieScene;
+
+    private final WatchScene watchScene;
 
     public View() {
         initialScene = new InitialScene();
         createAccountScene = new CreateAccountScene(initialScene);
         loginScene = new LoginScene(initialScene);
         adminScene = new AdminScene();
-        videoScene = new MovieScene();
+        movieScene = new MovieScene();
+        watchScene = new WatchScene();
     }
 
     public void createInitialWindow() {
@@ -36,6 +39,10 @@ public class View {
     }
 
     public MovieScene getMovieScene() {
-        return videoScene;
+        return movieScene;
+    }
+
+    public WatchScene getWatchScene() {
+        return watchScene;
     }
 }

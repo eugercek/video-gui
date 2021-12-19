@@ -1,21 +1,24 @@
 package com.umut.videostream.controller;
 
+import com.umut.videostream.model.Model;
 import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.enums.EMovieGenre;
+import com.umut.videostream.model.enums.EMovieQuality;
 import com.umut.videostream.model.enums.ESubscriptionType;
 import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
 import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.tmdb.MovieTMDBRepository;
 import com.umut.videostream.model.services.NetworkOperations;
-import com.umut.videostream.view.*;
-import com.umut.videostream.model.Model;
+import com.umut.videostream.view.IFreezable;
+import com.umut.videostream.view.View;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Console;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -27,6 +30,7 @@ public class Controller {
     private final LoginEventHandler loginEventHandler;
     private final CreateAccountEventHandler createAccountEventHandler;
     private final InitialSceneEventHandler initialSceneEventHandler;
+    private final  WatchEventHandler watchEventHandler;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -36,11 +40,11 @@ public class Controller {
         loginEventHandler = new LoginEventHandler();
         createAccountEventHandler = new CreateAccountEventHandler();
         initialSceneEventHandler = new InitialSceneEventHandler();
+        watchEventHandler = new WatchEventHandler();
 
         bindEventHandlers();
 
         view.createInitialWindow();
-
     }
 
     /*
@@ -136,7 +140,7 @@ public class Controller {
                 users = model.getUserRepository().getAllUsersBySubscriptionType(subscriptionType);
                 Object[][] data = new Object[users.length][];
 
-                for (int i =0; i < users.length; i++) {
+                for (int i = 0; i < users.length; i++) {
                     System.out.println(Arrays.toString(users[i].getData()));
                     data[i] = users[i].getData();
                 }
@@ -148,6 +152,13 @@ public class Controller {
                 JOptionPane.showInputDialog(e.getMessage());
             }
         }
+    }
+
+    private void changeQuality() {
+        ESubscriptionType type = model.getActiveUser().getSubscriptionType();
+        EMovieQuality[] list = EMovieQuality.getQualityListBySubscriptionType(type);
+
+        view.getWatchScene().setQualityList(list, watchEventHandler);
     }
 
 
@@ -186,6 +197,9 @@ public class Controller {
         bindCreateAccountSceneHandlers();
 
         bindMovieSceneHandlers();
+
+        bindWatchSceneHandlers();
+
 
         bindAdminSceneHandlers();
     }
@@ -231,7 +245,6 @@ public class Controller {
                     }
                 });
 
-
         var typeComboBox = adminScene.getTypeComboBox();
 
         typeComboBox
@@ -248,6 +261,12 @@ public class Controller {
                         }
                     }
                 });
+    }
+
+    private void bindWatchSceneHandlers(){
+        view.getWatchScene()
+                .getQualityComboBox()
+                .addActionListener(watchEventHandler);
     }
 
     /*
@@ -302,11 +321,15 @@ public class Controller {
         loadInitialAdminState();
     }
 
+    private void switchToWatchScene(){
+        view.getMovieScene().setVisible(false);
+        view.getWatchScene().setVisible(true);
+    }
+
 
     /*
     Event handler classes
      */
-
     private class InitialSceneEventHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -334,12 +357,46 @@ public class Controller {
         }
     }
 
-    public class MovieEventHandler implements ActionListener {
+    public class MovieEventHandler implements ActionListener, MouseListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == view.getMovieScene().getSelectGenreComboBox()) {
                 changeGenre();
             }
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(e.getSource() instanceof JLabel){
+                switchToWatchScene();
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
+    public class WatchEventHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            changeQuality();
         }
     }
 
@@ -350,6 +407,5 @@ public class Controller {
     private boolean isUserAdmin(User user) {
         return user.getUsername().equals("admin");
     }
-
 
 }

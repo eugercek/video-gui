@@ -43,6 +43,7 @@ public class AdminScene extends JFrame implements IFreezable {
         container.setLayout(new FlowLayout());
 
         setSize(600, 800);
+        setTitle("Admin panel");
         setResizable(false);
         setLocationRelativeTo(null);
     }

@@ -6,12 +6,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class LoginScene extends JFrame  implements IFreezable{
-    private JTextField usernameTextField, passwordTextField;
-    private JLabel usernameLabel, passwordLabel;
-    private Container container;
-    private JFrame caller;
+    private final JTextField usernameTextField;
+    private final JPasswordField passwordTextField;
+    private final JLabel usernameLabel;
+    private final JLabel passwordLabel;
+    private final Container container;
+    private final JFrame caller;
 
-    private JButton submitButton;
+    private final JButton submitButton;
 
     public LoginScene(JFrame caller){
         this.caller = caller;
@@ -19,7 +21,7 @@ public class LoginScene extends JFrame  implements IFreezable{
         usernameTextField = new JTextField(20);
 
         passwordLabel = new JLabel("Password");
-        passwordTextField = new JTextField(20);
+        passwordTextField = new JPasswordField(20);
 
         submitButton = new JButton("Login");
 
@@ -36,6 +38,7 @@ public class LoginScene extends JFrame  implements IFreezable{
         container.setLayout(new FlowLayout());
 
         setSize(250,250);
+        setTitle("Login");
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -51,7 +54,7 @@ public class LoginScene extends JFrame  implements IFreezable{
     }
 
     public String getPasswordValue(){
-        return passwordTextField.getText();
+        return String.valueOf(passwordTextField.getPassword());
     }
 
     public JButton getSubmitButton() {

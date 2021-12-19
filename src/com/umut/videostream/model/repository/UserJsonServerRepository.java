@@ -1,7 +1,6 @@
 package com.umut.videostream.model.repository;
 
 import com.google.gson.Gson;
-import com.sun.source.doctree.SummaryTree;
 import com.umut.videostream.model.User;
 import com.umut.videostream.model.enums.ESubscriptionType;
 import com.umut.videostream.model.exceptions.SubscriptionTypeNotFound;
@@ -9,9 +8,7 @@ import com.umut.videostream.model.exceptions.UserNotFoundException;
 import com.umut.videostream.model.repository.mockapi.MockAPIUserModel;
 import com.umut.videostream.model.repository.mockapi.UserFactory;
 import com.umut.videostream.model.services.NetworkOperations;
-import jdk.javadoc.doclet.Reporter;
 
-import javax.management.relation.Relation;
 import java.io.IOException;
 import java.text.MessageFormat;
 

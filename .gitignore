@@ -47,3 +47,5 @@ build
 *.mtc1
 *.out
 *.synctex.gz
+
+node_modules

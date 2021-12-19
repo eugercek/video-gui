@@ -35,7 +35,6 @@ public class InitialScene extends JFrame implements IFreezable {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     public void addCreatAccountListener(ActionListener listener) {

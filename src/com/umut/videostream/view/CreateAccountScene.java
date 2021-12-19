@@ -8,11 +8,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CreateAccountScene extends JFrame implements IFreezable{
-    private JTextField nameTextField, surnameTextField, emailTextField, usernameTextField,passwordTextField;
-    private JLabel nameLabel, surnameLabel, emailLabel, usernameLabel, passwordLabel;
-    private JPanel panel;
-    private JFrame caller;
-    private JButton submitButton;
+    private final JTextField nameTextField;
+    private final JTextField surnameTextField;
+    private final JTextField emailTextField;
+    private final JTextField usernameTextField;
+    private final JPasswordField passwordTextField;
+    private final JLabel nameLabel;
+    private final JLabel surnameLabel;
+    private final JLabel emailLabel;
+    private final JLabel usernameLabel;
+    private final JLabel passwordLabel;
+    private final JPanel panel;
+    private final JFrame caller;
+    private final JButton submitButton;
 
     public CreateAccountScene(JFrame caller){
         this.caller = caller;
@@ -26,7 +34,7 @@ public class CreateAccountScene extends JFrame implements IFreezable{
         emailTextField = new JTextField(20);
 
         passwordLabel = new JLabel("Password");
-        passwordTextField = new JTextField(20);
+        passwordTextField = new JPasswordField(20);
 
         usernameLabel = new JLabel("Username");
         usernameTextField = new JTextField(20);
@@ -55,6 +63,7 @@ public class CreateAccountScene extends JFrame implements IFreezable{
         getContentPane().add(panel);
 
         setSize(250,300);
+        setTitle("Create account");
         setResizable(true);
         setLocationRelativeTo(null);
 
@@ -83,7 +92,7 @@ public class CreateAccountScene extends JFrame implements IFreezable{
     }
 
     public String getPasswordValue(){
-        return passwordTextField.getText();
+        return String.valueOf(passwordTextField.getPassword());
     }
 
     public JButton getSubmitButton() {

@@ -84,6 +84,7 @@ public class MovieScene extends JFrame implements IFreezable {
 
         setResizable(false);
         setLocationRelativeTo(null);
+        setTitle("Watch Movie");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         addWindowListener(new WindowAdapter() {
