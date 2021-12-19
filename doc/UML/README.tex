@@ -1,4 +1,4 @@
-% Created 2021-12-13 Pzt 22:35
+% Created 2021-12-20 Pzt 02:14
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -35,15 +35,16 @@
 \pagebreak
 
 \section{Use Case Diagrams}
-\label{sec:org1b4af79}
+\label{sec:orge9ba227}
 Syntax used in \emph{Description} is Martin Fowler's style (Fowler, Martin, 2003 Figure: 9.1)
 
 \begin{center}
-\includegraphics[width=.9\linewidth]{/tmp/babel-cbYO8z/plantuml-5UfVXT.png}
+\includegraphics[width=.9\linewidth]{UseCase.png}
 \end{center}
 
+
 \subsection{Create Account}
-\label{sec:org373b4ac}
+\label{sec:org67296b5}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -68,7 +69,7 @@ Extensions:
 \item 4a: Error in creation
 \end{itemize}
 \subsection{Login}
-\label{sec:orgc92bb06}
+\label{sec:org52fc26b}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -84,7 +85,7 @@ Extensions:
 \item 3a: There is no account
 \end{itemize}
 \subsection{Renew Subscription}
-\label{sec:orgdc0067b}
+\label{sec:orgba157b9}
 Goal Level: Sea Level \\
 Main Success Scenario: 
 
@@ -105,7 +106,7 @@ Extensions:
 \end{itemize}
 \end{itemize}
 \subsection{Payment Invoice}
-\label{sec:org7a09bc8}
+\label{sec:org787b418}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -126,7 +127,7 @@ Extensions:  \\
 \end{itemize}
 \end{itemize}
 \subsection{Generate Reports}
-\label{sec:org8e0a059}
+\label{sec:orga18ad24}
 Goal Level: Sea Level \\
 Main Success Scenario: \\
 
@@ -147,5 +148,27 @@ Extensions:
 \end{itemize}
 \end{itemize}
 \section{Sequence Diagrams}
-\label{sec:org1073579}
+\label{sec:org67c4a84}
+\subsection{Create Account}
+\label{sec:org7b2c327}
+\begin{center}
+\includegraphics[width=.9\linewidth]{sequence/CreateAccount.png}
+\end{center}
+
+\section{Class Diagrams}
+\label{sec:org8514762}
+\subsection{Model}
+\label{sec:org225d08f}
+\begin{center}
+\includegraphics[width=.9\linewidth]{class/model.png}
+\end{center}
+\subsection{View}
+\label{sec:orgc19da58}
+\url{class/view}
+
+\subsection{Controller}
+\label{sec:org445faff}
+\begin{center}
+\includegraphics[width=.9\linewidth]{class/controller.png}
+\end{center}
 \end{document}

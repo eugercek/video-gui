@@ -1,11 +1,7 @@
 package com.umut.videostream.model.repository.tmdb;
 
 import com.google.gson.annotations.SerializedName;
-import com.umut.videostream.model.Movie;
 import com.umut.videostream.model.enums.EMovieGenre;
-import com.umut.videostream.model.enums.EMovieQuality;
-
-import java.util.Arrays;
 
 public class TMDBMovieModel{
     private boolean adult;

@@ -29,7 +29,7 @@ rectangle "Main Screen"{
 * Use Case Diagrams
 Syntax used in /Description/ is Martin Fowler's style [cite:@distilled Figure: 9.1    ]
 
-#+begin_src plantuml
+#+begin_src plantuml :file UseCase.png
 left to right direction
 actor User
 actor Server
@@ -38,7 +38,7 @@ actor Admin
 
 rectangle "Main Screen"{
         usecase createAccount as "Create Account"
-        usecase renew as "Renew Subscription"
+        usecase renew as "Renew Sbscription"
         usecase invoice as "Get Invoices"
 
         User --> createAccount
@@ -66,7 +66,8 @@ rectangle "Main Screen"{
 #+end_src
 
 #+RESULTS:
-[[file:/tmp/babel-f5Ayd3/plantuml-C3y85W.png]]
+[[file:UseCase.png]]
+
 
 ** Create Account
 Goal Level: Sea Level \\
@@ -138,3 +139,162 @@ Extensions:
     - Server is down
     - ...
 * Sequence Diagrams
+** Create Account
+#+begin_src plantuml :file sequence/CreateAccount.png
+participant Controller as app
+participant view.CreateAccountScene as ui
+participant model.IUserRepository as model
+participant View
+
+[-> app: Create Account
+activate app
+
+        activate ui
+                app -> ui: getFormInformation
+                ui -> ui: getNameValue
+                ui -> ui: getSurNameValue
+                ui -> ui: getEmailValue
+                ui -> ui: getUsernameValue
+                ui -> ui: getPasswordValue
+                app <-- ui: UserInfo
+        deactivate ui
+
+        activate model
+                app -> model: Add(User)
+                alt successfull case
+                app <-- model: User
+                        else
+                        app <-- model: Exception
+                        [<-- app: Exception
+                end
+        deactivate model
+
+        activate View
+                app -> View: GoBackToMainScreen
+                app <-- View:
+        deactivate View
+
+        [<-- app:
+
+deactivate app
+
+#+end_src
+
+#+RESULTS:
+[[file:sequence/CreateAccount.png]]
+
+* Class Diagrams
+** Model
+#+begin_src plantuml :file class/model.png
+@startuml
+class Model {
+- IUserRepository userRepository
+- IMovieRepository movieRepository
+- User activeUser
++ void logIn(String,String)
++ IUserRepository getUserRepository()
++ IMovieRepository getMovieRepository()
++ User getActiveUser()
++ void setActiveUser(User)
+}
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:class/model.png]]
+** View
+#+begin_src plantuml :file class/view
+class View {
+- InitialScene initialScene
+- CreateAccountScene createAccountScene
+- LoginScene loginScene
+- AdminScene adminScene
+- MovieScene movieScene
+- WatchScene watchScene
++ void createInitialWindow()
++ InitialScene getInitialScene()
++ CreateAccountScene getCreateAccountScene()
++ LoginScene getLoginScene()
++ AdminScene getAdminScene()
++ MovieScene getMovieScene()
++ WatchScene getWatchScene()
+}
+#+end_src
+** Controller
+#+begin_src plantuml :file class/controller.png
+@startuml
+class Controller {
++ void logIn()
++ void createAccount()
+- void loadMovies(EMovieGenre)
++ void changeGenre()
+- void generateReport()
+- void changeQuality()
+- void loadInitialMovieState()
+- void loadInitialAdminState()
+- void loadInitialWatchState()
+- void bindEventHandlers()
+- void bindInitialSceneHandlers()
+- void bindLoginSceneHandlers()
+- void bindCreateAccountSceneHandlers()
+- void bindMovieSceneHandlers()
+- void bindAdminSceneHandlers()
+- void bindWatchSceneHandlers()
++ void serverConnectionError(int,String,IFreezable)
++ void wrongLoginRequest()
++ void switchLoginScene()
++ void switchToCreateAccountScene()
++ void switchToVideoScene()
+- void switchToAdminScene()
+- void switchToWatchScene()
+- boolean isUserAdmin(User)
+}
+class Controller.InitialSceneEventHandler {
++ void actionPerformed(ActionEvent)
+}
+class Controller.LoginEventHandler {
++ void actionPerformed(ActionEvent)
+}
+class Controller.CreateAccountEventHandler {
++ void actionPerformed(ActionEvent)
+}
+class Controller.MovieEventHandler {
++ void actionPerformed(ActionEvent)
+}
+class Controller.MovieMouseAdapter {
++ void mouseClicked(MouseEvent)
+}
+class Controller.WatchEventHandler {
++ void actionPerformed(ActionEvent)
+}
+
+
+Controller +.. com.umut.videostream.controller.Controller.InitialSceneEventHandler
+ActionListener <|.. com.umut.videostream.controller.Controller.InitialSceneEventHandler
+Controller +.. com.umut.videostream.controller.Controller.LoginEventHandler
+ActionListener <|.. com.umut.videostream.controller.Controller.LoginEventHandler
+Controller +.. com.umut.videostream.controller.Controller.CreateAccountEventHandler
+ActionListener <|.. com.umut.videostream.controller.Controller.CreateAccountEventHandler
+Controller +.. com.umut.videostream.controller.Controller.MovieEventHandler
+ActionListener <|.. com.umut.videostream.controller.Controller.MovieEventHandler
+Controller +.. com.umut.videostream.controller.Controller.MovieMouseAdapter
+MouseAdapter <|-- com.umut.videostream.controller.Controller.MovieMouseAdapter
+Controller +.. com.umut.videostream.controller.Controller.WatchEventHandler
+ActionListener <|.. com.umut.videostream.controller.Controller.WatchEventHandler
+
+
+Controller "1" o-- "1" View
+Controller "1" o-- "1" Model
+Controller "1" o-- "1" MovieEventHandler
+Controller "1" o-- "1" LoginEventHandler
+Controller "1" o-- "1" CreateAccountEventHandler
+Controller "1" o-- "1" InitialSceneEventHandler
+Controller "1" o-- "1" WatchEventHandler
+Controller "1" o-- "1" MovieMouseAdapter
+@enduml
+
+#+end_src
+
+#+ATTR_LATEX: :heigh 30cm
+#+RESULTS:
+[[file:class/controller.png]]
